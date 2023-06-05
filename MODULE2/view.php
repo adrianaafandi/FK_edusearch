@@ -6,10 +6,10 @@
             <title>FK_EDUSEARCH</title>
                 <style>
                     .list-item {
-                        margin-bottom: 10px;
+                        margin-bottom: 20px;
                     }
                     .list-item button {
-                        margin-left: 10px;
+                        margin-left: 20px;
                     }
                 </style>
     </head>
