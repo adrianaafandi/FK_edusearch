@@ -1,3 +1,29 @@
+<<<<<<< Updated upstream
+=======
+<?php
+//Connect to the database server.
+$link = mysqli_connect("localhost", "YES", "fk-edusearch", "3307") or die(mysql_connect_error());
+
+//Select the database.
+mysqli_select_db($link, "fk-edusearch") or die(mysqli_error($link));
+
+$idURL= $_GET['id'];
+
+//SQL query
+$query = "SELECT * FROM person WHERE Person_ID = '$idURL'"
+  or die(mysqli_connect_error());
+  
+//Execute the query (the recordset $rs contains the result)
+$result = mysqli_query($link, $query);
+
+$row = mysqli_fetch_assoc($result);
+
+  $pNama = $row["Person_name"];
+  $pTel = $row["Person_telephone"];
+  $pAdd = $row["Person_address"];
+?>
+
+>>>>>>> Stashed changes
 <!DOCTYPE html>
 <html>
 
