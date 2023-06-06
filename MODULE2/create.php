@@ -7,7 +7,7 @@
 <body>
     <?php
         // Connect to the database server.
-        $link = mysqli_connect("localhost", "root", "", "fkedusearch_module2", "3307") or die(mysqli_connect_error());
+        $link = mysqli_connect("localhost", "root", "", "FK_edusearch", "3307") or die(mysqli_connect_error());
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Retrieve form data
