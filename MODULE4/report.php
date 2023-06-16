@@ -80,6 +80,40 @@
             echo "<option value='$type'>$type</option>";
           }
         
+          // Check connection
+          if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+          }
+          
+          // Get form data
+          $reporter_name = $_POST["reporter_name"];
+          $datentime = $_POST["datentime"];
+          $report_types = $_POST["report_types"];
+          $reportDetails = $_POST["reportDetails"];
+          
+          // Create connection
+          $conn = new mysqli($servername, $username, $password, $dbname, 3307);
+          
+          // Check connection
+          if ($conn->connect_error) {
+              die("Connection failed: " . $conn->connect_error);
+          }
+          
+          // Prepare and bind the SQL statement
+          $stmt = $conn->prepare("INSERT INTO report (reporter_name, datentime, report_types, reportDetails) VALUES (?, ?, ?, ?)");
+          $stmt->bind_param("ssss", $reporter_name, $datentime, $report_types, $reportDetails);
+          
+          // Execute the statement
+          if ($stmt->execute()) {
+              echo "Report submitted successfully";
+          } else {
+              echo "Error submitting report: " . $stmt->error;
+          }
+          
+          // Close the statement and connection
+          $stmt->close();
+          $conn->close();
+
           // Close the database connection
           mysqli_close($link);
         ?>

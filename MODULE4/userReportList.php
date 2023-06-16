@@ -49,12 +49,13 @@
      <nav>
         <a href="LoginSuccessful.php">Home</a><br>
         <a href="ManageUserProfile.php">Manage User Profile</a><br>
+        <a href="UserReportList.php">Report</a><br>
         <a href="Logout.php">Logout Here</a>
     </nav>
 
     <div>
   
-    <h2>User ReportList</h2>
+    <h2>User Report List</h2>
 
     <table>
       <tr>
