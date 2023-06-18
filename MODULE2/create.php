@@ -4,10 +4,10 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>FK_EDUSEARCH</title>
-    <img src="img.png" class="img-fluid">
 </head>
 
 <body>
+    <?php include '../UserSideBar/User_sidebar.php'?>
     <?php
     // Connect to the database server.
     $link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
@@ -104,7 +104,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div><br><br>
     </div>
 
     <script>
