@@ -33,6 +33,7 @@ if (isset($_GET['discussion_id'])) {
         </head>
 
         <body>
+            <?php include '../UserSideBar/User_sidebar.php' ?>
             <div class="content">
                 <div style="margin-top: 30px; margin-left: 10px;">
                     <form class="row g-3" method="POST" action="update.php">
@@ -89,6 +90,7 @@ if (isset($_GET['discussion_id'])) {
                     </form>
                 </div>
             </div>
+            <br><br>
         </body>
 
         </html>
