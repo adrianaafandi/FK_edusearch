@@ -37,35 +37,12 @@
       background-color: #f44336;
       color: white;
     }
-    nav {
-      float: left;
-      width: 10%;
-      height: 490px;
-      background: #a9a8a8;
-      padding: 20px;
-      border-radius: 25px;
-    }
-    
-    div {
-      background: #d5d5d5;
-      padding-left: 210px;
-      padding-top: 20px;
-      border-radius: 25px;
-      height: 510px;
-    }
+   
   </style>
 </head>
 
 <body>
-
-<nav>
-    <a href="LoginSuccessful.php">Home</a><br>
-    <a href="ManageUserProfile.php">Manage User Profile</a><br>
-    <a href="UserReportList.php">Report</a><br>
-    <a href="Logout.php">Logout Here</a>
-  </nav>
-
-  <img src="../public/banner.png" style="height:200px" width="1520px">
+<?php include '../AdminSideBar/Admin_sidebar.php'; ?>
   <table>
     <thead>
 

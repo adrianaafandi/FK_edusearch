@@ -99,7 +99,7 @@
 
 <body>
 <div id="mySidebar" class="sidebar">
-<img src="../public/picture9.png" style="height:100px; width:100%; style="margin-top:100px; ">
+<img src="../public/picture9.png" style="height:100px; width:100%;" style="margin-top:100px; ">
 
 
 <a class="active" href="#user" align="left">
