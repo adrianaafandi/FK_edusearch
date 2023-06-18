@@ -99,6 +99,7 @@
 
 <body>
 <div id="mySidebar" class="sidebar">
+
 <img src="../public/picture9.png" style="height:100px; width:100%;" style="margin-top:100px; ">
 
 

@@ -103,13 +103,13 @@
 
 
 
-<a class="active" href="#user" align="left">
+<a class="active" href="userInfo.php" align="left">
     <img src="../public/picture4.png"
                 style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
                 User</span>
         </a>
 
-        <a href="#discussion" align="left" >
+        <a href="view.php" align="left" >
         <img src="../public/picture6.png"
                 style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
                 Discussion</span>
@@ -119,6 +119,12 @@
         <img src="../public/picture7.png"
                 style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
                 Expert</span>
+        </a>
+
+        <a href="#insight" align="left" >
+        <img src="../public/picture12.png"
+                style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
+                Insights</span>
         </a>
 
         <a href="#report" align="left" >
