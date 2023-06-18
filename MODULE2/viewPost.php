@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -20,7 +20,7 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        .post h3 {
+        .post h2 {
             font-size: 24px;
             margin-bottom: 10px;
         }
@@ -48,6 +48,9 @@
             border-radius: 5px;
             background-color: #f7f7f7;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 1240px;
+            /* Adjust the width based on your preference */
+            box-sizing: border-box;
         }
 
         .comment-container h4 {
@@ -63,14 +66,14 @@
             margin-bottom: 5px;
         }
     </style>
+
 </head>
 
 <body>
+    <br><br>
     <?php
-    // Connect to the database server.
+    // Establish a database connection
     $link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
-
-    // Select the database.
     mysqli_select_db($link, "fkedusearch_module2") or die(mysqli_error($link));
 
     // Handle the like button click
@@ -105,89 +108,70 @@
         mysqli_query($link, $commentQuery); // Insert the new comment
     }
 
-    // Fetch the categories from the database
-    $categoryQuery = "SELECT * FROM category";
-    $categoryResult = mysqli_query($link, $categoryQuery);
+    // Check if the discussion_id is provided in the URL parameter
+    if (isset($_GET['discussion_id'])) {
+        $discussion_id = $_GET['discussion_id'];
 
-    // Fetch the posts from the database
-    $postQuery = "SELECT * FROM discussion";
-    $postResult = mysqli_query($link, $postQuery);
+        // Fetch the discussion details from the database
+        $discussionQuery = "SELECT * FROM discussion WHERE discussion_id = '$discussion_id'";
+        $discussionResult = mysqli_query($link, $discussionQuery);
+        if ($discussionRow = mysqli_fetch_assoc($discussionResult)) {
+            $title = $discussionRow['title'];
+            $content = $discussionRow['content'];
+
+            // Fetch the comment count for the discussion
+            $commentCountQuery = "SELECT COUNT(*) AS comment_count FROM comment WHERE discussion_id = '$discussion_id'";
+            $commentCountResult = mysqli_query($link, $commentCountQuery);
+            $commentCountRow = mysqli_fetch_assoc($commentCountResult);
+            $commentCount = $commentCountRow['comment_count'];
+
+            // Display the discussion title and content in a post container
+            echo "<div class='post-container'>";
+            echo "<div class='post'>";
+            echo "<h2>$title</h2>";
+            echo "<p>$content</p>";
+            echo "<p>Likes: <span id='likeCount$discussion_id'>{$discussionRow['discussion_like']}</span></p>";
+            echo "<p>Comments: <span id='commentCount$discussion_id'>$commentCount</span></p>";
+            echo "<button class='btn btn-danger' onclick='likePost($discussion_id)'>🤍</button>";
+            echo "<button class='btn btn-primary' onclick='toggleCommentForm($discussion_id)'>COMMENT</button>";
+            echo "<div id='commentFormContainer$discussion_id' style='display: none;'>";
+            echo "<form id='commentForm$discussion_id' onsubmit='submitComment(event, $discussion_id)'>";
+            echo "<textarea class='form-control' id='commentTextarea$discussion_id' rows='3' placeholder='Enter your comment'></textarea>";
+            echo "<button type='submit' class='btn btn-primary'>Submit</button>";
+            echo "</form>";
+            echo "</div>";
+            echo "</div>";
+            echo "</div>";
+        }
+    }
     ?>
 
-    <div class="content">
-        <div style="margin-top: 30px; margin-left: 10px;">
-            <form class="row g-3" method="POST" action="">
-                <h2><b>YOUR POST</b></h2><br><br><br><br>
-                <div class="mb-3 row" style="margin-top: 10px;">
-                    <label for="category_id" class="col-sm-2 col-form-label" style="font-size: 24px;"><b>CATEGORY</b></label>
-                    <div class="col-sm-10">
-                        <select class="form-select form-select-lg mb-3" id="category_id" name="category_id" aria-label="Default select example">
-                            <option value="">Select category</option>
-                            <?php
-                            // Loop through the categories and generate the options
-                            while ($categoryRow = mysqli_fetch_assoc($categoryResult)) {
-                                $category_id = $categoryRow['category_id'];
-                                $category_type = $categoryRow['category_type'];
-                                echo "<option value='$category_id'>$category_type</option>";
-                            }
-                            ?>
-                        </select>
-                    </div>
-                </div>
-            </form>
-            <?php
-            // Display the posts
-            while ($row = mysqli_fetch_assoc($postResult)) {
-                $discussion_id = $row['discussion_id'];
-                $title = $row['title'];
-                $content = $row['content'];
-                $commentCount = $row['discussion_comment'];
-
-                echo "<div class='post-container'>";
-                echo "<div class='post'>";
-                echo "<h3>$title</h3>";
-                echo "<p>$content</p>";
-                echo "<p>Likes: <span id='likeCount$discussion_id'>{$row['discussion_like']}</span></p>";
-                echo "<p>Comments: <span id='commentCount$discussion_id'>$commentCount</span></p>";
-                echo "<button class='btn btn-danger' onclick='likePost($discussion_id)'>🤍</button>";
-                echo "<button class='btn btn-primary' onclick='toggleCommentForm($discussion_id)'>COMMENT</button>";
-                echo "<div id='commentFormContainer$discussion_id' style='display: none;'>";
-                echo "<form id='commentForm$discussion_id' onsubmit='submitComment(event, $discussion_id)'>";
-                echo "<textarea class='form-control' id='commentTextarea$discussion_id' rows='3' placeholder='Enter your comment'></textarea>";
-                echo "<button type='submit' class='btn btn-primary'>Submit</button>";
-                echo "</form>";
-                echo "</div>";
-                echo "</div>";
-                echo "</div>";
-            }
-            ?>
-        </div>
-
-        <div class="comment-grid">
+    <div class="comment-grid">
+        <div id="commentList<?php echo $discussion_id; ?>">
             <?php
             // Display the comments grid
-            mysqli_data_seek($postResult, 0); // Reset the result pointer
-            while ($row = mysqli_fetch_assoc($postResult)) {
-                $discussion_id = $row['discussion_id'];
-                $title = $row['title'];
-
+            $commentQuery = "SELECT * FROM comment WHERE discussion_id = '$discussion_id'";
+            $commentResult = mysqli_query($link, $commentQuery);
+            $commentNumber = 1;
+            while ($commentRow = mysqli_fetch_assoc($commentResult)) {
+                $commentContent = $commentRow['comment_content'];
                 echo "<div class='comment-container'>";
-                echo "<h4>$title</h4>";
-                echo "<div class='comment-list' id='commentList$discussion_id'>";
-                $commentQuery = "SELECT * FROM comment WHERE discussion_id = '$discussion_id'";
-                $commentResult = mysqli_query($link, $commentQuery);
-                $commentNumber = 1;
-                while ($commentRow = mysqli_fetch_assoc($commentResult)) {
-                    $commentContent = $commentRow['comment_content'];
-                    echo "<p class='comment'>$commentNumber. $commentContent</p>";
-                    $commentNumber++;
-                }
+                echo "<h4>Comment $commentNumber</h4>";
+                echo "<div class='comment-list'>";
+                echo "<p class='comment'>$commentContent</p>";
                 echo "</div>";
                 echo "</div>";
+                $commentNumber++;
             }
             ?>
         </div>
-    </div><br>
+    </div><br><br>
+    <div class="content" style="margin-top: 10px; margin-left: 10px;">
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-primary" onclick="window.location.href = 'view.php';">BACK</button>
+        </div>
+    </div>
+    <br><br>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -209,10 +193,15 @@
             if (commentContent !== '') {
                 const commentList = document.getElementById(`commentList${discussion_id}`);
                 const commentNumber = commentList.childElementCount + 1;
-                const newComment = document.createElement('p');
-                newComment.className = 'comment';
-                newComment.textContent = `${commentNumber}. ${commentContent}`;
-                commentList.appendChild(newComment);
+                const newCommentContainer = document.createElement('div');
+                newCommentContainer.className = 'comment-container';
+                newCommentContainer.innerHTML = `
+                <h4>Comment ${commentNumber}</h4>
+                <div class='comment-list'>
+                    <p class='comment'>${commentContent}</p>
+                </div>
+            `;
+                commentList.appendChild(newCommentContainer);
 
                 // Clear the comment textarea
                 commentTextarea.value = '';
@@ -220,7 +209,7 @@
                 // Send an AJAX request to store the comment in the database
                 $.ajax({
                     type: 'POST',
-                    url: 'submitComment.php', // Updated PHP file
+                    url: 'submitComment.php',
                     data: {
                         discussion_id: discussion_id,
                         comment_content: commentContent
@@ -235,6 +224,7 @@
                 });
             }
         }
+
 
         // Update the like button click handler
         function likePost(discussion_id) {
@@ -257,4 +247,4 @@
     </script>
 </body>
 
-</html> -->
+</html>
