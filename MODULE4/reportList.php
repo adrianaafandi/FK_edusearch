@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
   <style>
@@ -8,7 +9,8 @@
       width: 100%;
     }
 
-    th, td {
+    th,
+    td {
       padding: 8px;
       text-align: left;
       border-bottom: 1px solid #ddd;
@@ -18,7 +20,8 @@
       background-color: #f5f5f5;
     }
 
-    .update-btn, .delete-btn {
+    .update-btn,
+    .delete-btn {
       padding: 4px 8px;
       border: none;
       cursor: pointer;
@@ -34,15 +37,39 @@
       background-color: #f44336;
       color: white;
     }
+    nav {
+      float: left;
+      width: 10%;
+      height: 490px;
+      background: #a9a8a8;
+      padding: 20px;
+      border-radius: 25px;
+    }
+    
+    div {
+      background: #d5d5d5;
+      padding-left: 210px;
+      padding-top: 20px;
+      border-radius: 25px;
+      height: 510px;
+    }
   </style>
 </head>
+
 <body>
-    
-  <img src="img.png" style="height:200px" width="1520px">
+
+<nav>
+    <a href="LoginSuccessful.php">Home</a><br>
+    <a href="ManageUserProfile.php">Manage User Profile</a><br>
+    <a href="UserReportList.php">Report</a><br>
+    <a href="Logout.php">Logout Here</a>
+  </nav>
+
+  <img src="../public/banner.png" style="height:200px" width="1520px">
   <table>
     <thead>
-        
-  <title>Report List</title>
+
+      <title>Report List</title>
       <tr>
         <th>Name of Reporter</th>
         <th>Date and Time</th>
@@ -107,4 +134,5 @@
     deleteButtons.forEach(btn => btn.addEventListener('click', handleDelete));
   </script>
 </body>
+
 </html>
