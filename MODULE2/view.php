@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>FK_EDUSEARCH</title>
     <img src="img.png" class="img-fluid">
 </head>
-
 <body>
     <div class="content" style="margin-top: 10px; margin-left: 10px;">
         <button type="button" class="btn btn-primary" onclick="window.location.href = 'create.php';">+ NEW POST</button>
     </div>
-
     <br><br>
 
     <div class="row" style="margin-left: 10px;">
@@ -34,10 +31,11 @@
 
             echo "<div class='col-sm-3'>";
             echo "<table class='table table-bordered'>";
-            echo "<thead><tr><th colspan='2'>$title</th></tr></thead>";
+            echo "<thead><tr><th colspan='3'>$title</th></tr></thead>";
             echo "<tbody>";
             echo "<tr><td><button class='btn btn-danger' onclick='deletePost($discussion_id)'><i class='fas fa-trash'></i></button></td>";
-            echo "<td><button class='btn btn-primary' onclick='editPost($discussion_id)'><i class='fas fa-edit'></i></button></td></tr>";
+            echo "<td><button class='btn btn-primary' onclick='editPost($discussion_id)'><i class='fas fa-edit'></i></button></td>";
+            echo "<td><button class='btn btn-success' onclick='viewPost($discussion_id)'><i class='fas fa-eye'></i></button></td></tr>";
             echo "</tbody>";
             echo "</table>";
             echo "</div>";
@@ -73,6 +71,10 @@
 
         function editPost(discussion_id) {
             window.location.href = "edit.php?discussion_id=" + discussion_id;
+        }
+
+        function viewPost(discussion_id) {
+            window.location.href = "viewPost.php?discussion_id=" + discussion_id
         }
     </script>
 </body>
