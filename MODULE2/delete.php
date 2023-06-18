@@ -1,48 +1,26 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <title>FK_EDUSEARCH</title>
-    </head>
+<?php
+// Connect to the database server.
+$link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
 
-    <body>
-        <div class="content">
-            <div style="margin-top: 30px; margin-left: 10px;">
-                <form class="row g-3">
-                    <h6 align="left"><b>EDIT POST</b></h6><br><br>
-                        <div class="mb-3 row" style="margin-top: 10px;">
-                            <label for="inputCategory" class="col-sm-2 col-form-label">Category</label>
-                                <div class="col-sm-10">
-                                    <select class="form-select" id="inputCategory" aria-label="Default select example">
-                                        <option selected>Select category</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
-                                <br><br>
-                                    <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputTitle">
-                                        </div>
-                                        <br><br>
-                                    <label for="inputContent" class="col-sm-2 col-form-label">Content</label>
-                                        <div class="col-sm-10">
-                                            <textarea class="form-control" id="inputContent" rows="3"></textarea>
-                                        </div>
-                                        <br><br><br><br>
-                                    <label for="inputTag" class="col-sm-2 col-form-label">Tags</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputTags">
-                                        </div>
-                        </div>
-                </form>
-                    <div class="d-flex justify-content-center">
-                        <button type="button" class="btn btn-danger">DELETE</button>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <button type="button" class="btn btn-secondary">CANCEL</button>
-                    </div> 
-            </div>
-        </div>
-    </body>
-</html>
+// Select the database
+mysqli_select_db($link, "fkedusearch_module2") or die(mysqli_error($link));
+// Check if the discussion_id is provided via POST
+if (!isset($_POST['discussion_id'])) {
+    echo "Error: Discussion ID not provided";
+    exit;
+}
+
+$discussion_id = $_POST['discussion_id'];
+
+// Delete the post from the database
+$query = "DELETE FROM discussion WHERE discussion_id = $discussion_id";
+$result = mysqli_query($link, $query);
+
+if ($result && mysqli_affected_rows($link) > 0) {
+    echo "Post deleted successfully";
+} else {
+    echo "Error deleting post: " . mysqli_error($link);
+}
+
+// Close the database connection
+mysqli_close($link);
