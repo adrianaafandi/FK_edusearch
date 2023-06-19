@@ -10,7 +10,7 @@
 <body>
     <?php
     // Connect to the database server.
-    $link = mysqli_connect("localhost", "root", "", "FKEduSearch", "3307") or die(mysqli_connect_error());
+    $link = mysqli_connect("localhost", "root", "", "fkedusearch", "8111") or die(mysqli_connect_error());
 
     // Select the database
     mysqli_select_db($link, "fkedusearch") or die(mysqli_error($link));

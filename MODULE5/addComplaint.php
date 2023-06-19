@@ -10,7 +10,7 @@
 <body>
     <?php
     // Connect to the database server.
-    $link = mysqli_connect("localhost", "root", "", "fkedusearch") or die(mysqli_connect_error());
+    $link = mysqli_connect("localhost", "root", "", "fkedusearch", "8111") or die(mysqli_connect_error());
 
     // Check if the form is submitted.
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
