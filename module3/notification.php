@@ -39,7 +39,7 @@
             <div class="question-box">
                 <i class="fas fa-user-circle"></i>
                 <span class="name">John Doe</span><br>
-                <p>Can anyone tell me where i can study by my own on how to create HTML form since my project submission’s due is around the corner</p>
+                <p>What is the purpose of software architecture, and how does it impact the development process?</p>
                 <div class="answer-button">
                     <button type="submit" class="btn btn-primary">ANSWER</button>
                 </div>
@@ -48,7 +48,7 @@
             <div class="question-box">
                 <i class="fas fa-user-circle"></i>
                 <span class="name">Felix</span><br>
-                <p>How to create cheeckout form ?</p>
+                <p>What is the purpose of server-side scripting? Provide examples of server-side scripting languages.</p>
                 <div class="answer-button">
                     <button type="submit" class="btn btn-primary">ANSWER</button>
                 </div>
@@ -57,7 +57,25 @@
             <div class="question-box">
                 <i class="fas fa-user-circle"></i>
                 <span class="name">Karina</span><br>
-                <p>How to create cookies using javascript?</p>
+                <p>Explain the concept of database abstraction and its benefits in the context of web development.</p>
+                <div class="answer-button">
+                    <button type="submit" class="btn btn-primary">ANSWER</button>
+                </div>
+            </div><br>
+
+            <div class="question-box">
+                <i class="fas fa-user-circle"></i>
+                <span class="name">Karina</span><br>
+                <p>How do you handle database connection errors or failures in a web application?</p>
+                <div class="answer-button">
+                    <button type="submit" class="btn btn-primary">ANSWER</button>
+                </div>
+            </div><br>
+
+            <div class="question-box">
+                <i class="fas fa-user-circle"></i>
+                <span class="name">Karina</span><br>
+                <p>How do you establish a connection to a MySQL database using PHP?</p>
                 <div class="answer-button">
                     <button type="submit" class="btn btn-primary">ANSWER</button>
                 </div>
