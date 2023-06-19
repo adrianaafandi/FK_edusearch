@@ -106,37 +106,24 @@ ob_start(); // Start output buffering
     <div id="mySidebar" class="sidebar">
         <img src="../public/picture9.png" style="height:100px; width:100%; margin-top:100px;">
 
-        <a href="userInfo.php" align="left">
+        <a href="createProfile.php" align="left">
             <img src="../public/picture4.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                User</span>
+                Profile</span>
         </a>
 
-        <a href="view.php" align="left">
+        <a href="post.php" align="left">
             <img src="../public/picture6.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Discussion</span>
+                Post</span>
         </a>
 
-        <a href="#expert" align="left">
+        <a href="#rating" align="left">
             <img src="../public/picture7.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Expert</span>
+                Rating</span>
         </a>
 
-        <a href="postInsight.php" align="left">
-            <i class="fas fa-chart-bar" style="vertical-align: middle;"></i>
-            <span style="vertical-align: middle;">&nbsp;&nbsp;Insights</span>
-        </a>
-
-
-        <a href="report.php" align="left" >
-        <img src="../public/picture8.png"
-                style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-
+        <a href="#report" align="left">
+            <img src="../public/picture8.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
                 Report</span>
-        </a>
-
-        <a href="#complaint" align="left">
-            <img src="../public/picture10.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Complaint</span>
         </a>
     </div>
 
