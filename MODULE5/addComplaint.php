@@ -14,9 +14,95 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <title>FK_EDUSEARCH</title>
 
-    <?php include '../UserSideBar/User_sidebar.php'; ?>
-
     <style>
+        body {
+            font-family: "Lato", sans-serif;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #286291;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+
+        }
+
+        .sidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #EFEFEF;
+            display: block;
+            transition: 0.3s;
+            font-family: "Century Gothic", sans-serif;
+        }
+
+        .sidebar a.active {
+            background-color: #54AFE6;
+            color: white;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .sidebar a:hover:not(.active) {
+            background-color: #99C2E3;
+            color: #262261;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .sidebar a:hover {
+            color: #D5E0FF;
+            background-color: #54AFE6;
+            color: #262261;
+            border-radius: 0 15px 15px 0;
+        }
+
+        .sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        .openbtn {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #62A0D4;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .openbtn:hover {
+            background-color: #54AFE6;
+        }
+
+        #main {
+            transition: margin-left .5s;
+            padding: 16px;
+        }
+
+        /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+        @media screen and (max-height: 450px) {
+            .sidebar {
+                padding-top: 15px;
+            }
+
+            .sidebar a {
+                font-size: 18px;
+            }
+        }
+
         .custom-container {
             background-color: black;
             color: black;
@@ -233,4 +319,3 @@
 </body>
 
 </html>
-
