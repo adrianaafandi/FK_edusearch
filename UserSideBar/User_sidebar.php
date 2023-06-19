@@ -106,24 +106,19 @@ ob_start(); // Start output buffering
     <div id="mySidebar" class="sidebar">
         <img src="../public/picture9.png" style="height:100px; width:100%; margin-top:100px;">
 
-        <a href="userInfo.php" align="left">
+        <a href="../MODULE2/userInfo.php" align="left">
             <img src="../public/picture4.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
                 User</span>
         </a>
 
-        <a href="view.php" align="left">
+        <a href="../MODULE2/view.php" align="left">
             <img src="../public/picture6.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
                 Discussion</span>
         </a>
 
-        <a href="#expert" align="left">
-            <img src="../public/picture7.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Expert</span>
-        </a>
-
         <a href="postInsight.php" align="left">
             <i class="fas fa-chart-bar" style="vertical-align: middle;"></i>
-            <span style="vertical-align: middle;">&nbsp;&nbsp;Insights</span>
+            <span style="vertical-align: middle;">&nbsp;&nbsp;&nbsp;&nbsp;Insights</span>
         </a>
 
 
@@ -134,7 +129,7 @@ ob_start(); // Start output buffering
                 Report</span>
         </a>
 
-        <a href="#complaint" align="left">
+        <a href="../MODULE5/addComplaint.php" align="left">
             <img src="../public/picture10.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
                 Complaint</span>
         </a>

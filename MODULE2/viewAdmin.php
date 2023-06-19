@@ -77,7 +77,7 @@ $numPosts = mysqli_num_rows($postResult);
         </form>
     </div>
     <br>
-    <div class="row" style="margin-left: 10px;">
+    <div class="row shadow" style="margin-left: 10px;">
         <?php
         // Display the post titles with edit and delete buttons
         if ($numPosts > 0) {
@@ -105,6 +105,7 @@ $numPosts = mysqli_num_rows($postResult);
         mysqli_close($link);
         ?>
     </div>
+
     <br><br>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

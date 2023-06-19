@@ -32,9 +32,14 @@ $numPosts = mysqli_num_rows($postResult);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>FK_EDUSEARCH</title>
 </head>
+<style>
+    .row.shadow {
+        background-color: #F8F8F8;
+    }
+</style>
 
 <body>
-    <?php include '../UserSideBar/User_sidebar.php'?>
+    <?php include '../UserSideBar/User_sidebar.php' ?>
 
     <div class="content" style="margin-top: 10px; margin-left: 10px;">
         <h2><b>YOUR POST</b></h2><br>
@@ -61,7 +66,7 @@ $numPosts = mysqli_num_rows($postResult);
         </form>
     </div>
     <br>
-    <div class="row" style="margin-left: 10px;">
+    <div class="row shadow" style="margin-left: 10px;">
         <?php
         // Display the post titles with edit and delete buttons
         if ($numPosts > 0) {
@@ -88,6 +93,7 @@ $numPosts = mysqli_num_rows($postResult);
         mysqli_close($link);
         ?>
     </div>
+
     <br><br>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

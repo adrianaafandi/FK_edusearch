@@ -5,23 +5,59 @@ $link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
 // Select the database
 mysqli_select_db($link, "fkedusearch_module2") or die(mysqli_error($link));
 
-// Fetch the posts count by month from the database
-$query = "SELECT DATE_FORMAT(date, '%Y-%m') AS month, COUNT(*) AS count FROM discussion GROUP BY month";
+// Set the default filter option to month
+$filterOption = 'month';
+$selectedDate = '';
+
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Check if the filter option is set
+    if (isset($_POST['filter_option'])) {
+        $filterOption = $_POST['filter_option'];
+    }
+
+    // Check if the selected date is set
+    if (isset($_POST['selected_date'])) {
+        $selectedDate = $_POST['selected_date'];
+    }
+}
+
+// Fetch the posts count based on the filter option
+$query = '';
+if ($filterOption === 'day') {
+    // Filter by day
+    if (!empty($selectedDate)) {
+        $selectedDate = date('Y-m-d', strtotime($selectedDate));
+        $query = "SELECT DATE_FORMAT(date, '%Y-%m-%d') AS date, COUNT(*) AS count FROM discussion WHERE DATE(date) = '$selectedDate' GROUP BY date";
+    }
+} elseif ($filterOption === 'week') {
+    // Filter by week
+    if (!empty($selectedDate)) {
+        $selectedDate = date('Y-m-d', strtotime($selectedDate));
+        $weekStart = date('Y-m-d', strtotime('last Sunday', strtotime($selectedDate)));
+        $weekEnd = date('Y-m-d', strtotime('next Saturday', strtotime($selectedDate)));
+        $query = "SELECT DATE_FORMAT(date, '%Y-%m-%d') AS date, COUNT(*) AS count FROM discussion WHERE DATE(date) BETWEEN '$weekStart' AND '$weekEnd' GROUP BY date";
+    }
+} else {
+    // Filter by month
+    $query = "SELECT DATE_FORMAT(date, '%Y-%m') AS month, COUNT(*) AS count FROM discussion GROUP BY month";
+}
+
 $result = mysqli_query($link, $query);
 
 // Prepare the data for the chart
-$months = [];
+$labels = [];
 $postCounts = [];
 
 while ($row = mysqli_fetch_assoc($result)) {
-    $month = $row['month'];
+    $label = $row['date'] ?? $row['month'];
     $count = $row['count'];
-    $months[] = $month;
+    $labels[] = $label;
     $postCounts[] = $count;
 }
 
 // Convert the PHP arrays to JSON format for JavaScript usage
-$monthsJSON = json_encode($months);
+$labelsJSON = json_encode($labels);
 $postCountsJSON = json_encode($postCounts);
 ?>
 
@@ -41,17 +77,36 @@ $postCountsJSON = json_encode($postCounts);
 
     <div class="content" style="margin-top: 10px; margin-left: 10px;">
         <h2><b>POST INSIGHTS</b></h2><br>
+
+        <form method="POST" action="">
+            <div class="form-group">
+                <label for="selected_date">Choose a Date:</label>
+                <input type="date" class="form-control" id="selected_date" name="selected_date" value="<?php echo htmlentities($selectedDate); ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="filter_option">Filter Option:</label>
+                <select class="form-control" id="filter_option" name="filter_option">
+                    <option value="day" <?php if ($filterOption === 'day') echo 'selected'; ?>>Day</option>
+                    <option value="week" <?php if ($filterOption === 'week') echo 'selected'; ?>>Week</option>
+                    <option value="month" <?php if ($filterOption === 'month') echo 'selected'; ?>>Month</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+
+        <br>
+
         <canvas id="myChart"></canvas>
     </div>
 
     <script>
-        var months = <?php echo $monthsJSON; ?>;
+        var labels = <?php echo $labelsJSON; ?>;
         var postCounts = <?php echo $postCountsJSON; ?>;
 
         new Chart("myChart", {
             type: "bar",
             data: {
-                labels: months,
+                labels: labels,
                 datasets: [{
                     label: "Total Posts",
                     data: postCounts,
@@ -64,7 +119,7 @@ $postCountsJSON = json_encode($postCounts);
                     x: {
                         title: {
                             display: true,
-                            text: "Month"
+                            text: "Date"
                         }
                     },
                     y: {

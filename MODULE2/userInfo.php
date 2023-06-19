@@ -55,12 +55,26 @@ $socmed_type = "";
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>FK_EDUSEARCH</title>
+    <style>
+        .container-with-shadow {
+            background-color: #F8F8F8;
+            padding: 20px;
+            margin-top: 30px;
+            margin-left: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .content {
+            margin-top: 30px;
+            margin-left: 10px;
+        }
+    </style>
 </head>
 
 <body>
     <?php include '../UserSideBar/User_sidebar.php'; ?>
-    <div class="content">
-        <div style="margin-top: 30px; margin-left: 10px;">
+    <div class="container-with-shadow">
+        <div class="content">
             <form class="row g-3" method="POST" action="" onsubmit="return validateForm();">
                 <h5><b>PERSONAL INFORMATION</b></h5><br><br><br>
                 <div class="mb-3 row">
@@ -128,6 +142,7 @@ $socmed_type = "";
         </div>
         <br><br>
     </div>
+    <br><br><br>
 
     <script>
         function validateForm() {
