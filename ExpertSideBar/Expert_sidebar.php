@@ -1,14 +1,12 @@
 <?php
 ob_start(); // Start output buffering
 ?>
+
 <!DOCTYPE html>
 <html>
 
 <head>
-    <link rel="icon" href="../public/logoump.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
     <title>FK_EDUSEARCH</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -23,7 +21,7 @@ ob_start(); // Start output buffering
             z-index: 1;
             top: 0;
             left: 0;
-            background-color: #286291;
+            background-color: #69C9C4;
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
@@ -43,13 +41,13 @@ ob_start(); // Start output buffering
         }
 
         .sidebar a.active {
-            background-color: #54AFE6;
+            background-color: #3FBBB7;
             color: white;
             border-radius: 0 10px 10px 0;
         }
 
         .sidebar a:hover:not(.active) {
-            background-color: #99C2E3;
+            background-color: #BBE7E5;
             color: #262261;
             border-radius: 0 10px 10px 0;
         }
@@ -72,7 +70,7 @@ ob_start(); // Start output buffering
         .openbtn {
             font-size: 20px;
             cursor: pointer;
-            background-color: #62A0D4;
+            background-color: #69C9C4;
             color: white;
             padding: 10px 15px;
             border: none;
@@ -81,7 +79,7 @@ ob_start(); // Start output buffering
         }
 
         .openbtn:hover {
-            background-color: #54AFE6;
+            background-color: #9FDDDA;
         }
 
         #main {
@@ -104,37 +102,28 @@ ob_start(); // Start output buffering
 
 <body>
     <div id="mySidebar" class="sidebar">
-        <img src="../public/picture9.png" style="height:100px; width:100%; margin-top:100px;">
 
-        <a href="userInfo.php" align="left">
+        <img src="../public/picture9.png" style="height:100px; width:100%;" style="margin-top:100px; ">
+
+
+        <a href="insertProfile.php" align="left">
             <img src="../public/picture4.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                User</span>
+                Profile</span>
         </a>
 
-        <a href="view.php" align="left">
+        <a href="viewAdmin.php" align="left">
             <img src="../public/picture6.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Discussion</span>
+                Post</span>
         </a>
 
-        <a href="#expert" align="left">
+        <a href="#rating" align="left">
             <img src="../public/picture7.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Expert</span>
+                Rating</span>
         </a>
-
-        <a href="postInsight.php" align="left">
-            <i class="fas fa-chart-bar" style="vertical-align: middle;"></i>
-            <span style="vertical-align: middle;">&nbsp;&nbsp;Insights</span>
-        </a>
-
 
         <a href="#report" align="left">
             <img src="../public/picture8.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
                 Report</span>
-        </a>
-
-        <a href="#complaint" align="left">
-            <img src="../public/picture10.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Complaint</span>
         </a>
     </div>
 
