@@ -9,7 +9,7 @@
 
 <body>
 
-
+    <?php include '../AdminSideBar/Admin_sidebar.php'; ?>
     <div class="card-body">
         <form>
 
@@ -21,6 +21,7 @@
                     border: 1px solid #ccc;
                     padding: 10px;
                     margin-bottom: 10px;
+                    background-color: #f1f1f1;
                 }
 
                 .name {
@@ -33,37 +34,50 @@
                     display: flex;
                     justify-content: center;
                 }
+
+                .icon {
+                    font-size: 24px;
+                    /* Adjust the font size to make the icon bigger */
+                }
+
+                .info-box {
+                    border: 1px solid #ccc;
+                    padding: 15px;
+                    margin-top: 12px;
+                    background-color: #D3D3D3;
+                }
+
             </style>
 
+            <div class="info-box">
+                <div class="question-box">
+                    <i class="fas fa-user-circle icon"></i>
+                    <span class="name">DR. NOORLINI</span><br>
+                    <p>Dr. Noorlini has made changes to her profile information.</p>
+                    <div class="approve-button">
+                        <button type="submit" class="btn btn-primary">APPROVE</button>
+                    </div>
+                </div><br>
 
-            <div class="question-box">
-                <i class="fas fa-user-circle"></i>
-                <span class="name">DR. NOORLINI</span><br>
-                <p>Dr. Noorlini has made changes to her profile information.</p>
-                <div class="approve-button">
-                    <button type="submit" class="btn btn-primary">APPROVE</button>
-                </div>
-            </div><br>
+                <div class="question-box">
+                    <i class="fas fa-user-circle icon"></i>
+                    <span class="name">DR. AHMAD FAKHRI</span><br>
+                    <p>Dr. Ahmad Fakhri Bin Ab. Nasir has made changes to his profile information.</p>
+                    <div class="approve-button">
+                        <button type="submit" class="btn btn-primary">APPROVE</button>
+                    </div>
+                </div><br>
 
-            <div class="question-box">
-                <i class="fas fa-user-circle"></i>
-                <span class="name">DR. AHMAD FAKHRI</span><br>
-                <p>Dr. Ahmad Fakhri Bin Ab. Nasir has made changes to his profile information.</p>
-                <div class="approve-button">
-                    <button type="submit" class="btn btn-primary">APPROVE</button>
-                </div>
-            </div><br>
+                <div class="question-box">
+                    <i class="fas fa-user-circle icon"></i>
+                    <span class="name">DR. NOOR AZIDA</span><br>
+                    <p>Dr. Noor Azida Binti Sahabudin has made changes to her profile information.</p>
+                    <div class="approve-button">
+                        <button type="submit" class="btn btn-primary">APPROVE</button>
+                    </div>
+                </div><br>
 
-            <div class="question-box">
-                <i class="fas fa-user-circle"></i>
-                <span class="name">DR. NOOR AZIDA</span><br>
-                <p>Dr. Noor Azida Binti Sahabudin has made changes to her profile information.</p>
-                <div class="approve-button">
-                    <button type="submit" class="btn btn-primary">APPROVE</button>
-                </div>
-            </div><br>
-
-
+            </div>
 
 
 
@@ -72,6 +86,7 @@
         </form>
 
     </div>
+
 
 
 

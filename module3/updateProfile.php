@@ -10,55 +10,70 @@
 <body>
     <?php
     // Connect to the database server.
-    $link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
+    $link = mysqli_connect("localhost", "root", "", "fkedusearch", "8111") or die(mysqli_connect_error());
 
     // Select the database
-    mysqli_select_db($link, "fkedusearch_module3") or die(mysqli_error($link));
+    mysqli_select_db($link, "fkedusearch") or die(mysqli_error($link));
+
+    // Retrieve data from expert table
+    $expertQuery = "SELECT * FROM expert WHERE id = 1";
+    $expertResult = mysqli_query($link, $expertQuery);
+    $expertData = mysqli_fetch_assoc($expertResult);
+
+    // Retrieve data from publication table
+    $publicationQuery = "SELECT * FROM publication WHERE id = 1";
+    $publicationResult = mysqli_query($link, $publicationQuery);
+    $publicationData = mysqli_fetch_assoc($publicationResult);
+
+    // Retrieve data from research table
+    $researchQuery = "SELECT * FROM research WHERE id = 1";
+    $researchResult = mysqli_query($link, $researchQuery);
+    $researchData = mysqli_fetch_assoc($researchResult);
+
+    // Initialize variables with retrieved values
+    $name = isset($expertData['name']) ? $expertData['name'] : "";
+    $email = isset($expertData['email']) ? $expertData['email'] : "";
+    $phoneNum = isset($expertData['phoneNum']) ? $expertData['phoneNum'] : "";
+    $academicStatus = isset($expertData['academicStatus']) ? $expertData['academicStatus'] : "";
+    $CV = isset($expertData['CV']) ? $expertData['CV'] : "";
+    $socialMedia = isset($expertData['socialMedia']) ? $expertData['socialMedia'] : "";
+    $list_publication = isset($publicationData['list_publication']) ? $publicationData['list_publication'] : "";
+    $research_area = isset($researchData['research_area']) ? $researchData['research_area'] : "";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Retrieve form data
         $name = $_POST["name"];
         $email = $_POST["email"];
         $phoneNum = $_POST["phoneNum"];
-        $researchArea = $_POST["researchArea"];
-        $listOfPublications = $_POST["listOfPublications"];
         $academicStatus = $_POST["academicStatus"];
         $CV = $_POST["CV"];
         $socialMedia = $_POST["socialMedia"];
+        $list_publication = $_POST["list_publication"];
+        $research_area = $_POST["research_area"];
 
         // Validate form fields
-        if (empty($name) || empty($email) || empty($phoneNum) || empty($researchArea) || empty($listOfPublications) || empty($academicStatus) || empty($CV) || empty($socialMedia)) {
+        if (empty($name) || empty($email) || empty($phoneNum) || empty($academicStatus) || empty($CV) || empty($socialMedia)) {
             echo '<script>alert("Please fill in all the fields!!");</script>';
         } else {
-            // Prepare the INSERT statement
-            $insertQuery = "INSERT INTO expert (name, email, phoneNum, researchArea, listOfPublications, academicStatus, CV, socialMedia) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            $stmt = mysqli_prepare($link, $insertQuery);
+            // Prepare the UPDATE statement
+            $updateQuery = "UPDATE expert, publication, research SET expert.name=?, expert.email=?, expert.phoneNum=?, expert.academicStatus=?, expert.CV=?, expert.socialMedia=?, publication.list_publication=?, research.research_area=? WHERE expert.id=1";
+            $stmt = mysqli_prepare($link, $updateQuery);
 
             // Bind parameters to the statement
-            mysqli_stmt_bind_param($stmt, "ssssssss", $name, $email, $phoneNum, $researchArea, $listOfPublications, $academicStatus, $CV, $socialMedia);
+            mysqli_stmt_bind_param($stmt, "ssssssss", $name, $email, $phoneNum, $academicStatus, $CV, $socialMedia, $list_publication,  $research_area);
 
             // Execute the statement
             if (mysqli_stmt_execute($stmt)) {
-                echo "Record inserted successfully.";
-                //header("Location: view.php"); Redirect to view.php
+                echo "Record updated successfully.";
+                header("Location: homepageExpert.php"); //Redirect to view.php
                 exit();
             } else {
-                echo "Error inserting record: " . mysqli_stmt_error($stmt);
+                echo "Error updating record: " . mysqli_stmt_error($stmt);
             }
         }
     }
-
-    // Initialize variables with empty values
-    $name = "";
-    $email = "";
-    $phoneNum = "";
-    $researchArea = "";
-    $listOfPublications = "";
-    $academicStatus = "";
-    $CV = "";
-    $socialMedia = "";
-
     ?>
+
     <div class="content">
         <div style="margin-top: 30px; margin-left: 10px;">
             <form class="row g-3" method="POST" action="" onsubmit="return validateForm();">
@@ -82,27 +97,15 @@
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    <label for="researchArea" class="col-sm-2 col-form-label">Research Area</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="researchArea" name="researchArea" value="<?php echo $researchArea; ?>">
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label for="listOfPublications" class="col-sm-2 col-form-label">List of Publications</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="listOfPublications" name="listOfPublications" value="<?php echo $listOfPublications; ?>">
-                    </div>
-                </div>
-                <div class="mb-3 row">
                     <label for="academicStatus" class="col-sm-2 col-form-label">Academic Status</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="academicStatus" name="academicStatus" value="<?php echo $academicStatus; ?>">
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    <label for="CV" class="form-label">CV</label>
+                    <label for="CV" class="col-sm-2 col-form-label">CV</label>
                     <div class="col-sm-10">
-                        <input class="form-control" type="file" id="CV" name="CV" value="<?php echo $CV; ?>" multiple>
+                        <input type="text" class="form-control" id="CV" name="CV" value="<?php echo $CV; ?>">
                     </div>
                 </div>
                 <div class="mb-3 row">
@@ -111,10 +114,22 @@
                         <input type="text" class="form-control" id="socialMedia" name="socialMedia" value="<?php echo $socialMedia; ?>">
                     </div>
                 </div>
-                <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-success">SAVE</button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="btn btn-primary" onclick="window.location.href = 'view.php'">EDIT</button>
+                <div class="mb-3 row">
+                    <label for="listPublication" class="col-sm-2 col-form-label">List Publication</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="list_publication" name="list_publication" value="<?php echo $list_publication; ?>">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="researchArea" class="col-sm-2 col-form-label">Research Area</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="research_area" name="research_area" value="<?php echo $research_area; ?>">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -125,16 +140,15 @@
             var name = document.getElementById("name").value;
             var email = document.getElementById("email").value;
             var phoneNum = document.getElementById("phoneNum").value;
-            var researchArea = document.getElementById("researchArea").value;
-            var listOfPublications = document.getElementById("listOfPublications").value;
             var academicStatus = document.getElementById("academicStatus").value;
             var CV = document.getElementById("CV").value;
             var socialMedia = document.getElementById("socialMedia").value;
 
-            if (name === "" || email === "" || phoneNum === "" || researchArea === "" || listOfPublications === "" || academicStatus === "" || CV === "" || socialMedia === "") {
+            if (name.trim() == "" || email.trim() == "" || phoneNum.trim() == "" || academicStatus.trim() == "" || CV.trim() == "" || socialMedia.trim() == "") {
                 alert("Please fill in all the fields!!");
                 return false;
             }
+
             return true;
         }
     </script>
