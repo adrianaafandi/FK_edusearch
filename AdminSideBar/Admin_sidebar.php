@@ -121,10 +121,16 @@
                 Expert</span>
         </a>
 
-        <a href="#report" align="left" >
+        <a href="userReportList.php" align="left" >
         <img src="../public/picture8.png"
                 style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Report</span>
+                User Report</span>
+        </a>
+
+        <a href="reportList.php" align="left" >
+        <img src="../public/picture8.png"
+                style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
+                Report List</span>
         </a>
 
         <a href="#complaint" align="left" >

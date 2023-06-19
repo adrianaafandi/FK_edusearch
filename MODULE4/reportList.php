@@ -2,6 +2,8 @@
 <html>
 
 <head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
   <style>
     table {
@@ -37,79 +39,88 @@
       background-color: #f44336;
       color: white;
     }
-   
+
   </style>
 </head>
 
 <body>
-<?php include '../AdminSideBar/Admin_sidebar.php'; ?>
-  <table>
-    <thead>
+  <?php include '../AdminSideBar/Admin_sidebar.php'; ?>
 
-      <title>Report List</title>
-      <tr>
-        <th>Name of Reporter</th>
-        <th>Date and Time</th>
-        <th>Report Type</th>
-        <th>Report Details</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>John Doe</td>
-        <td>2023-06-07 10:00</td>
-        <td>Incident</td>
-        <td>Something happened...</td>
-        <td>Investigation</td>
-        <td>
-          <button class="update-btn">Update</button>
-          <button class="delete-btn">Delete</button>
-        </td>
-      </tr>
-      <!-- Add more rows for other reports -->
-    </tbody>
-  </table>
 
-  <script>
-    // JavaScript code for handling update and delete actions
-    const updateButtons = document.querySelectorAll('.update-btn');
-    const deleteButtons = document.querySelectorAll('.delete-btn');
+  <?php 
+$link = mysqli_connect("localhost", "root", "", "FK_edusearch", "3307") or die(mysqli_connect_error());
 
-    function handleUpdate() {
-      // Get the report data and perform the update action
-      const row = this.closest('tr');
-      const reporter = row.cells[0].innerText;
-      const dateTime = row.cells[1].innerText;
-      const reportType = row.cells[2].innerText;
-      const reportDetails = row.cells[3].innerText;
-      const status = row.cells[4].innerText;
+$query = "SELECT r.report_id, r.reporter_name, r.datentime, r.type_id, t.type_type, r.reportDetails, r.status
+          FROM report r
+          INNER JOIN type t ON r.type_id = t.type_id";
 
-      // Perform the update action with the report data
-      // ...
+            // Execute the query
+            $result = mysqli_query($link, $query);
+            if ($result) {
+              if (mysqli_num_rows($result) > 0) {
+                  echo '
+                  <table border="1" class="table table-bordered">
+                <tr>
+                    <th>No.</th>
+                    <th>Name of Reporter</th>
+                    <th>Date</th>
+                    <th>Report Type</th>
+                    <th>Report Detail</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>';
 
-      // Example: Show an alert message
-      alert(`Update report:\nReporter: ${reporter}\nDate and Time: ${dateTime}\nReport Type: ${reportType}\nReport Details: ${reportDetails}\nStatus: ${status}`);
-    }
+                  // Output data of each row
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $report_id = $row["report_id"];
+                        $reporter_name = $row["reporter_name"];
+                        $datentime = $row["datentime"];
+                        $type_id = $row["type_id"];
+                        $type_type = $row["type_type"];
+                        $reportDetails = $row["reportDetails"];
+                        $status = $row["status"];
 
-    function handleDelete() {
-      // Get the report data and perform the delete action
-      const row = this.closest('tr');
-      const reporter = row.cells[0].innerText;
-      const dateTime = row.cells[1].innerText;
+                        echo "<tr>
+                    <td>$report_id</td>
+                    <td>$reporter_name</td>
+                    <td>$datentime</td>
+                    <td>$type_type  </td>
+                    <td>$reportDetails</td>
+                    <td>$status</td>
+                    <td>
+                    <div class='dropdown'>
+                      <button class='btn btn-primary dropdown-toggle' type='button' data-bs-toggle='dropdown'
+                        aria-expanded='false'>
+                        Update Status
+                      </button>
+                      <ul class='dropdown-menu'>
+                        <li><a class='dropdown-item' href='updateStatus.php?report_id=$report_id&status=RESOLVED'>Resolved</a></li>
+                        <li><a class='dropdown-item' href='updateStatus.php?report_id=$report_id&status=ON HOLD'>On Hold</a></li>
+                        <li><a class='dropdown-item' href='updateStatus.php?report_id=$report_id&status=IN INVESTIGATION'>In Investigation</a></li>
+                      </ul>
+                    </div>
+                    <a href='deleteReport.php?id=$report_id'><img src='../public/delete.png' alt='Edit Icon' style='height: 20px; width: 20px;'></a>                        
+                    </td>
+                </tr>";
+                    }
 
-      // Perform the delete action with the report data
-      // ...
+                    echo '</table>';
+                } else {
+                    echo "0 results";
+                }
+            } else {
+                echo "Error executing the query: " . mysqli_error($link);
+            }
 
-      // Example: Show an alert message
-      alert(`Delete report:\nReporter: ${reporter}\nDate and Time: ${dateTime}`);
-    }
+            // Close the database connection
+            mysqli_close($link);
 
-    // Add event listeners to update and delete buttons
-    updateButtons.forEach(btn => btn.addEventListener('click', handleUpdate));
-    deleteButtons.forEach(btn => btn.addEventListener('click', handleDelete));
-  </script>
+ ?>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-pzj7d/SvHLRN+RASnxlZ+p9bZI2n6sR9SNL9YI7g9uIhFxS1qBBtA3pQUijvIya/"
+  crossorigin="anonymous"></script>
+
 </body>
 
 </html>

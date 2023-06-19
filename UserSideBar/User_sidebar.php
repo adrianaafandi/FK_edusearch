@@ -127,7 +127,7 @@
                 Insights</span>
         </a>
 
-        <a href="#report" align="left" >
+        <a href="report.php" align="left" >
         <img src="../public/picture8.png"
                 style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
                 Report</span>
