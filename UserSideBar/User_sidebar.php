@@ -127,8 +127,10 @@ ob_start(); // Start output buffering
         </a>
 
 
-        <a href="#report" align="left">
-            <img src="../public/picture8.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
+        <a href="report.php" align="left" >
+        <img src="../public/picture8.png"
+                style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
+
                 Report</span>
         </a>
 

@@ -56,7 +56,7 @@
 </head>
 
 <body>
-  <?php include '../UserSideBar/User_sidebar.php'; ?>
+  <?php include '../UserSideBar/User_sidebar.php' ?>
 
   <?php
   // Connect to the database server.
@@ -72,13 +72,21 @@
     if (empty($type_id) || empty($reporter_name) || empty($datentime) || empty($reportDetails)) {
       echo '<script>alert("Please fill in all the fields!!");</script>';
     } else {
-      // Construct INSERT query
-      $insertQuery = "INSERT INTO report (type_id, reporter_name, datentime, reportDetails) VALUES ('$type_id', '$reporter_name', '$datentime', '$reportDetails')";
+      // Retrieve the maximum report ID from the database
+      $maxReportIdQuery = "SELECT MAX(report_id) AS max_id FROM report";
+      $maxReportIdResult = mysqli_query($link, $maxReportIdQuery);
+      $maxReportIdRow = mysqli_fetch_assoc($maxReportIdResult);
+      $maxReportId = $maxReportIdRow['max_id'];
+
+      // Calculate the new report ID by adding 1 to the maximum ID
+      $newReportId = $maxReportId + 1;
+
+      // Construct INSERT query with the manually specified report ID
+      $insertQuery = "INSERT INTO report (report_id, type_id, reporter_name, datentime, reportDetails) VALUES ('$newReportId', '$type_id', '$reporter_name', '$datentime', '$reportDetails')";
 
       // Execute INSERT query
       if (mysqli_query($link, $insertQuery)) {
         echo "Record inserted successfully.";
-        header("Location: reportList.php"); // Redirect to view.php
         exit();
       } else {
         echo "Error inserting record: " . mysqli_error($link);
@@ -95,8 +103,6 @@
   $reporter_name = "";
   $datentime = "";
   $reportDetails = "";
-
-
   ?>
 
   <title>Report</title>
@@ -123,12 +129,11 @@
                 $type_id = $typeRow['type_id'];
                 $type_type = $typeRow['type_type'];
                 echo "<option value='$type_id'>$type_type</option>";
-            }
+              }
               ?>
             </select>
           </div>
         </div>
-
         <div class="mb-3 row">
           <label for="datentime" class="col-sm-2 col-form-label">Date</label>
           <div class="col-sm-10">
