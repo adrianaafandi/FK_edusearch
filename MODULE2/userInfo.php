@@ -10,7 +10,7 @@
     <?php include '../UserSideBar/User_sidebar.php'?>
     <?php
     // Connect to the database server.
-    $link = mysqli_connect("localhost", "root", "", "fkedusearch_module2") or die(mysqli_connect_error());
+    $link = mysqli_connect("localhost", "root", "", "fkedusearch_module2", "user") or die(mysqli_connect_error());
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Retrieve form data
@@ -81,7 +81,7 @@
     }
 
     // Retrieve user data from the database
-    $userQuery = "SELECT * FROM user WHERE user_id = 1"; // Replace 123 with the actual user ID
+    $userQuery = "SELECT * FROM user WHERE user_id = ''"; // Replace with the actual user ID
     $userResult = mysqli_query($link, $userQuery);
     $user = mysqli_fetch_assoc($userResult);
 
