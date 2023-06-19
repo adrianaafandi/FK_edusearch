@@ -1,9 +1,9 @@
 <?php
 // Connect to the database server.
-$link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
+$link = mysqli_connect("localhost", "root", "", "fkedusearch", "8111") or die(mysqli_connect_error());
 
 // Select the database
-mysqli_select_db($link, "fkedusearch_module3") or die(mysqli_error($link));
+mysqli_select_db($link, "fkedusearch") or die(mysqli_error($link));
 
 // Fetch the categories from the database
 $categoryQuery = "SELECT * FROM category";
@@ -46,13 +46,13 @@ $numPosts = mysqli_num_rows($postResult);
             echo "<table class='table table-bordered'>";
             echo "<thead><tr><th>No</th><th>Title</th><th>Action</th></tr></thead>";
             echo "<tbody>";
-        
+
             $rowNumber = 1;
-        
+
             while ($row = mysqli_fetch_assoc($postResult)) {
                 $discussion_id = $row['discussion_id'];
                 $title = $row['title'];
-        
+
                 echo "<tr>";
                 echo "<td>$rowNumber</td>";
                 echo "<td>$title</td>";
@@ -61,10 +61,10 @@ $numPosts = mysqli_num_rows($postResult);
                 echo "<button class='btn btn-danger' onclick='deletePost($discussion_id)'><i class='fas fa-trash'></i></button>";
                 echo "</td>";
                 echo "</tr>";
-        
+
                 $rowNumber++;
             }
-        
+
             echo "</tbody>";
             echo "</table>";
         } else {
@@ -88,13 +88,20 @@ $numPosts = mysqli_num_rows($postResult);
             if (confirmation) {
                 $.ajax({
                     type: "POST",
-                    url: "delete.php",
+                    url: "deleteQuestion.php",
                     data: {
                         discussion_id: discussion_id
                     },
                     success: function(response) {
                         console.log(response);
-                        location.reload(); // Refresh the page after successful deletion
+                        if (response.includes('success')) {
+                            location.reload(); // Refresh the page after successful deletion
+                        } else {
+                            alert("Error deleting post: " + response);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert("An error occurred while deleting the post: " + error);
                     }
                 });
             }

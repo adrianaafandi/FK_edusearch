@@ -30,10 +30,14 @@
 
     <?php
     // Connect to the database server.
+<<<<<<< HEAD
+    $link = mysqli_connect("localhost", "root", "", "fkedusearch", "8111") or die(mysqli_connect_error());
+=======
     $link = mysqli_connect("localhost", "root", "", "fkedusearch");
     if (!$link) {
         die("Database connection failed: " . mysqli_connect_error());
     }
+>>>>>>> cceb6de26cbe25c5e8b495f241f89b35b666dbd0
 
     // Check if the form is submitted.
     if ($_SERVER["REQUEST_METHOD"] == "POST") {

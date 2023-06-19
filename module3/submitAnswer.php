@@ -1,7 +1,7 @@
 <?php
 // Establish a database connection
-$link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
-mysqli_select_db($link, "fkedusearch_module3") or die(mysqli_error($link));
+$link = mysqli_connect("localhost", "root", "", "fkedusearch", "8111") or die(mysqli_connect_error());
+mysqli_select_db($link, "fkedusearch") or die(mysqli_error($link));
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
