@@ -106,7 +106,7 @@ ob_start(); // Start output buffering
         <img src="../public/picture9.png" style="height:100px; width:100%;" style="margin-top:100px; ">
 
 
-        <a class="active" href="#user" align="left">
+        <a href="adminhomepage.php" align="left">
             <img src="../public/picture4.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
                 User</span>
         </a>
