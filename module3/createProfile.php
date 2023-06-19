@@ -12,53 +12,63 @@
     // Connect to the database server.
     $link = mysqli_connect("localhost", "root", "", "fkedusearch", "8111") or die(mysqli_connect_error());
 
-    // Select the database
-    mysqli_select_db($link, "fkedusearch") or die(mysqli_error($link));
+// Select the database
+mysqli_select_db($link, "fkedusearch") or die(mysqli_error($link));
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Retrieve form data
-        $name = $_POST["name"];
-        $email = $_POST["email"];
-        $phoneNum = $_POST["phoneNum"];
-        $researchArea = $_POST["researchArea"];
-        $listOfPublications = $_POST["listOfPublications"];
-        $academicStatus = $_POST["academicStatus"];
-        $CV = $_POST["CV"];
-        $socialMedia = $_POST["socialMedia"];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $phoneNum = $_POST["phoneNum"];
+    $researchArea = $_POST["researchArea"];
+    $listOfPublications = $_POST["listOfPublications"];
+    $academicStatus = $_POST["academicStatus"];
+    $CV = $_POST["CV"];
+    $socialMedia = $_POST["socialMedia"];
 
-        // Validate form fields
-        if (empty($name) || empty($email) || empty($phoneNum) || empty($researchArea) || empty($listOfPublications) || empty($academicStatus) || empty($CV) || empty($socialMedia)) {
-            echo '<script>alert("Please fill in all the fields!!");</script>';
+    // Validate form fields
+    if (empty($name) || empty($email) || empty($phoneNum) || empty($researchArea) || empty($listOfPublications) || empty($academicStatus) || empty($CV) || empty($socialMedia)) {
+        echo '<script>alert("Please fill in all the fields!!");</script>';
+    } else {
+        // Prepare the INSERT statement
+        $insertQuery = "INSERT INTO expert (name, email, phoneNum, researchArea, listOfPublications, academicStatus, CV, socialMedia) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = mysqli_prepare($link, $insertQuery);
+
+        // Bind parameters to the statement
+        mysqli_stmt_bind_param($stmt, "ssssssss", $name, $email, $phoneNum, $researchArea, $listOfPublications, $academicStatus, $CV, $socialMedia);
+
+        // Execute the statement
+        if (mysqli_stmt_execute($stmt)) {
+            echo "Record inserted successfully.";
+            //header("Location: view.php"); Redirect to view.php
+            exit();
         } else {
-            // Prepare the INSERT statement
-            $insertQuery = "INSERT INTO expert (name, email, phoneNum, researchArea, listOfPublications, academicStatus, CV, socialMedia) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            $stmt = mysqli_prepare($link, $insertQuery);
-
-            // Bind parameters to the statement
-            mysqli_stmt_bind_param($stmt, "ssssssss", $name, $email, $phoneNum, $researchArea, $listOfPublications, $academicStatus, $CV, $socialMedia);
-
-            // Execute the statement
-            if (mysqli_stmt_execute($stmt)) {
-                echo "Record inserted successfully.";
-                //header("Location: view.php"); Redirect to view.php
-                exit();
-            } else {
-                echo "Error inserting record: " . mysqli_stmt_error($stmt);
-            }
+            echo "Error inserting record: " . mysqli_stmt_error($stmt);
         }
     }
+}
 
-    // Initialize variables with empty values
-    $name = "";
-    $email = "";
-    $phoneNum = "";
-    $researchArea = "";
-    $listOfPublications = "";
-    $academicStatus = "";
-    $CV = "";
-    $socialMedia = "";
+// Initialize variables with empty values
+$name = "";
+$email = "";
+$phoneNum = "";
+$researchArea = "";
+$listOfPublications = "";
+$academicStatus = "";
+$CV = "";
+$socialMedia = "";
 
-    ?>
+?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>FK_EDUSEARCH</title>
+</head>
+
+<body>
+    <?php include '../ExpertSideBar/Expert_sidebar.php' ?>
     <div class="content">
         <div style="margin-top: 30px; margin-left: 10px;">
             <form class="row g-3" method="POST" action="" onsubmit="return validateForm();">
