@@ -4,10 +4,10 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>FK_EDUSEARCH</title>
+    <img src="img.png" class="img-fluid">
 </head>
 
 <body>
-    <?php include '../UserSideBar/User_sidebar.php'?>
     <?php
     // Connect to the database server.
     $link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
@@ -27,16 +27,20 @@
         if (empty($category_id) || empty($title) || empty($content) || empty($tags) || empty($date)) {
             echo '<script>alert("Please fill in all the fields!!");</script>';
         } else {
-            // Construct INSERT query
-            $insertQuery = "INSERT INTO discussion (category_id, title, content, tags, date) VALUES ('$category_id', '$title', '$content', '$tags', '$date')";
+            // Prepare the INSERT statement
+            $insertQuery = "INSERT INTO discussion (category_id, title, content, tags, date) VALUES (?, ?, ?, ?, ?)";
+            $stmt = mysqli_prepare($link, $insertQuery);
 
-            // Execute INSERT query
-            if (mysqli_query($link, $insertQuery)) {
+            // Bind parameters to the statement
+            mysqli_stmt_bind_param($stmt, "issss", $category_id, $title, $content, $tags, $date);
+
+            // Execute the statement
+            if (mysqli_stmt_execute($stmt)) {
                 echo "Record inserted successfully.";
                 header("Location: view.php"); // Redirect to view.php
                 exit();
             } else {
-                echo "Error inserting record: " . mysqli_error($link);
+                echo "Error inserting record: " . mysqli_stmt_error($stmt);
             }
         }
     }
@@ -52,7 +56,6 @@
     $tags = "";
     $date = "";
     ?>
-
     <div class="content">
         <div style="margin-top: 30px; margin-left: 10px;">
             <form class="row g-3" method="POST" action="" onsubmit="return validateForm();">
@@ -104,7 +107,7 @@
                 </div>
             </form>
         </div>
-    </div><br><br>
+    </div>
     </div>
 
     <script>
@@ -119,7 +122,6 @@
                 alert("Please fill in all the fields!!");
                 return false;
             }
-
             return true;
         }
     </script>
