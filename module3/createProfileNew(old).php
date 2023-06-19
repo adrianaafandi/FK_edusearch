@@ -13,7 +13,7 @@
 
     <?php
     // Connect to the database server.
-    $link = mysqli_connect("localhost", "root", "warsena180102_") or die(mysqli_connect_error());
+    $link = mysqli_connect("localhost", "root", "warsena180102_", "3307") or die(mysqli_connect_error());
 
     // Create the database if it doesn't exist
     $createDBQuery = "CREATE DATABASE IF NOT EXISTS fkedusearch";
