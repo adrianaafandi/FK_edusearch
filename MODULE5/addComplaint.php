@@ -199,7 +199,7 @@
 
 
     <div id="main">
-        <img src="/fkedusearch/img/banner.png" style="height:200px" width="100%">
+        <img src="/fkedusearch/banner.png" style="height:200px" width="100%">
         <button class="openbtn" onclick="toggleNav()">☰</button>
         <div class="content" style="
         padding-top: 50px;
