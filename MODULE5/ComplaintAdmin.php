@@ -312,13 +312,13 @@
 <body>
     <!-- Side Navigation -->
     <div id="mySidebar" class="sidebar">
-        <img src="/fkedusearch/img/picture9.png" style="height:100px; width:100%; style=" margin-top:100px; ">
+        <img src="/fkedusearch/img/picture9.png" style="height:100px; width:100%; margin-top:100px; ">
 
 
         <a class=" active" href="#user" align="left">
-        <img src="/fkedusearch/img/picture4.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span
-            style="vertical-align: middle;">&nbsp&nbsp
-            User</span>
+            <img src="/fkedusearch/img/picture4.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span
+                style="vertical-align: middle;">&nbsp&nbsp
+                User</span>
         </a>
 
         <a href="#discussion" align="left">
@@ -373,8 +373,6 @@
                                     <option value="Wrongly Assigned Research Area">Wrong Research Area</option>
                                     <option value="Others">Others</option>
                                 </select>
-
-
                             </div>
 
                             <!-- Sort -->
@@ -414,7 +412,7 @@
                             }
 
                             // SQL query
-                            $query = "SELECT * FROM complaint";
+                            $query = "SELECT *, DATE_FORMAT(complaint_datetime, '%Y-%m-%d') AS complaint_date, DATE_FORMAT(complaint_datetime, '%H:%i:%S') AS complaint_time FROM complaint";
 
                             // Execute the query
                             $result = mysqli_query($link, $query);
@@ -422,19 +420,20 @@
                             if ($result) {
                                 if (mysqli_num_rows($result) > 0) {
                                     echo '
-                            <table border="1" class="table table-bordered" id="complaint-table">  </br>
-                                <thead>
-                                    <tr align="center">
-                                        <th>No.</th>
-                                        <th>Complaint Name</th>
-                                        <th>Date and Time</th>
-                                        <th>Complaint Type</th>
-                                        <th>Complaint Detail</th>
-                                        <th>Actions</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>';
+                                    <table border="1" class="table table-bordered" id="complaint-table">  </br>
+                                        <thead>
+                                            <tr align="center">
+                                                <th>No.</th>
+                                                <th>Complaint Name</th>
+                                                <th>Date</th>
+                                                <th>Time</th>
+                                                <th>Complaint Type</th>
+                                                <th>Complaint Detail</th>
+                                                <th>Actions</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>';
 
                                     $count = 1;
 
@@ -442,50 +441,52 @@
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         $complaint_id = $row["complaint_id"];
                                         $complaint_name = $row["complaint_name"];
-                                        $complaint_datetime = $row["complaint_datetime"];
+                                        $complaint_date = $row["complaint_date"];
+                                        $complaint_time = $row["complaint_time"];
                                         $complaint_types = $row["complaint_types"];
                                         $complaint_desc = $row["complaint_desc"];
                                         $complaint_status = $row["complaint_status"];
 
                                         echo '
-                                <tr>
-                                <td>' . $count . '</td>
-                                <td>' . $complaint_name . '</td>
-                                <td>' . $complaint_datetime . '</td>
-                                <td class="complaint-types" id="complaint-type-' . $complaint_id . '">' . $complaint_types . '</td>
-                                <td>' . $complaint_desc . '</td>
-                                    <td> 
-                                        <a href="updateComplaint.php?id=' . $complaint_id . '"><img src="edit.png" alt="Edit Icon" style="height: 20px; width: 20px;"></a>
-                                        &nbsp;&nbsp;
-                                        <a href="deleteComplaint.php?id=' . $complaint_id . '"><img src="delete.png" alt="Edit Icon" style="height: 20px; width: 20px;"></a>                        
-                                    </td>
-                                    <td class="complaint-status">
-                                        <form method="POST" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">
-                                            <input type="hidden" name="complaint_id" value="' . $complaint_id . '">
-                                            <select name="complaint_status">
-                                                <option value="Investigation" ' . ($complaint_status == "Investigation" ? "selected" : "") . '>Investigation</option>
-                                                <option value="On Hold" ' . ($complaint_status == "On Hold" ? "selected" : "") . '>On Hold</option>
-                                                <option value="Resolved" ' . ($complaint_status == "Resolved" ? "selected" : "") . '>Resolved</option>
-                                            </select>
-                                            <input type="submit" class="btn btn-primary" style="background-color: #69C9C4; border: none;" value="Update">
-                                        </form>
-                                    </td>
-                                </tr>';
+                                        <tr>
+                                            <td>' . $count . '</td>
+                                            <td>' . $complaint_name . '</td>
+                                            <td class="complaint-date" id="complaint-date-' . $complaint_id . '">' . $complaint_date . '</td>
+                                            <td>' . $complaint_time . '</td>
+                                            <td class="complaint-types" id="complaint-type-' . $complaint_id . '">' . $complaint_types . '</td>
+                                            <td>' . $complaint_desc . '</td>
+                                            <td> 
+                                                <a href="updateComplaint.php?id=' . $complaint_id . '"><img src="edit.png" alt="Edit Icon" style="height: 20px; width: 20px;"></a>
+                                                &nbsp;&nbsp;
+                                                <a href="deleteComplaint.php?id=' . $complaint_id . '"><img src="delete.png" alt="Edit Icon" style="height: 20px; width: 20px;"></a>                        
+                                            </td>
+                                            <td class="complaint-status">
+                                                <form method="POST" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">
+                                                    <input type="hidden" name="complaint_id" value="' . $complaint_id . '">
+                                                    <select name="complaint_status">
+                                                        <option value="Investigation" ' . ($complaint_status == "Investigation" ? "selected" : "") . '>Investigation</option>
+                                                        <option value="On Hold" ' . ($complaint_status == "On Hold" ? "selected" : "") . '>On Hold</option>
+                                                        <option value="Resolved" ' . ($complaint_status == "Resolved" ? "selected" : "") . '>Resolved</option>
+                                                    </select>
+                                                    <input type="submit" class="btn btn-primary" style="background-color: #69C9C4; border: none;" value="Update">
+                                                </form>
+                                            </td>
+                                        </tr>';
 
                                         $count++;
                                     }
 
                                     echo '
-                                </tbody>
-                            </table>';
+                                    </tbody>
+                                    </table>';
 
                                     // Initialize DataTable
                                     echo '<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-                        <script>
-                            $(document).ready(function() {
-                                $("#complaint-table").DataTable();
-                            });
-                        </script>';
+                                    <script>
+                                        $(document).ready(function() {
+                                            $("#complaint-table").DataTable();
+                                        });
+                                    </script>';
                                 } else {
                                     echo "0 results";
                                 }
@@ -632,17 +633,77 @@
 
             <script>
                 function filterTable() {
-                    var filter = document.getElementById("filter-complaint-types").value;  // Get the selected complaint type filter
-                    var table = document.getElementById("complaint-table");  // Get the table element
+                    var filter = document.getElementById("filter-complaint-types").value; // Get the selected complaint type filter
+                    var table = document.getElementById("complaint-table"); // Get the table element
 
                     for (var i = 1; i < table.rows.length; i++) {
-                        var complaintTypeCell = table.rows[i].querySelector(".complaint-types");  // Get the cell containing the complaint type
-                        var complaintTypeId = complaintTypeCell.getAttribute("id").replace("complaint-type-", "");  // Extract the complaint ID
+                        var complaintTypeCell = table.rows[i].querySelector(".complaint-types"); // Get the cell containing the complaint type
+                        var complaintTypeId = complaintTypeCell.getAttribute("id").replace("complaint-type-", ""); // Extract the complaint ID
 
                         if (filter === "all" || complaintTypeCell.textContent === filter) {
-                            table.rows[i].style.display = "";  // Show the row
+                            table.rows[i].style.display = ""; // Show the row
                         } else {
-                            table.rows[i].style.display = "none";  // Hide the row
+                            table.rows[i].style.display = "none"; // Hide the row
+                        }
+                    }
+                }
+
+                function sortTable() {
+                    var filter = document.getElementById("sort-complaint-date").value; // Get the selected date
+                    var table = document.getElementById("complaint-table"); // Get the table element
+
+
+                    for (var i = 1; i < table.rows.length; i++) {
+                        var complaintTypeCell = table.rows[i].querySelector(".complaint-date"); // Get the cell containing the date
+                        var complaintTypeId = complaintTypeCell.getAttribute("id").replace("complaint-date-", ""); // Extract the complaint ID
+
+
+                        // complaintTypeCell.textContent === filter
+
+
+                        if (filter === "default") {
+                            table.rows[i].style.display = ""; // Show the row
+                        } else if (filter === "day") {
+                            const date = new Date();
+                            let currDay = String(date.getDate()).padStart(2, '0');
+                            let currMonth = String(date.getMonth() + 1).padStart(2, "0");
+                            let currYear = date.getFullYear();
+                            let currDate = currYear + '-' + currMonth + '-' + currDay;
+                            if (complaintTypeCell.textContent === '2023-06-20') {
+                                table.rows[i].style.display = ""; // Show the row
+                            } else {
+                                table.rows[i].style.display = "none"; // Hide the row
+                            }
+                        } else if (filter === "week") {
+                            const date = new Date();
+                            let currDay = String(date.getDate()).padStart(2, '0');
+                            let currMonth = String(date.getMonth() + 1).padStart(2, "0");
+                            let currYear = date.getFullYear();
+
+
+                            let allDays = [];
+                            let count = 0;
+
+
+                            while (count != 7) {
+                                allDays.push(currYear + '-' + currMonth + '-' + currDay);
+                                currDay--;
+                                count++;
+                            }
+
+
+                            for (var a = 0; a < allDays.length; a++) {
+                                if (complaintTypeCell.textContent === allDays[a]) {
+                                    table.rows[i].style.display = ""; // Show the row
+                                } else {
+                                    table.rows[i].style.display = "none"; // Hide the row
+                                }
+                            }
+                        } else if (filter === "month") {
+
+
+                        } else {
+                            table.rows[i].style.display = "none"; // Hide the row
                         }
                     }
                 }
@@ -670,7 +731,7 @@
 
         </div>
 
-        
+
         </div>
     </body>
 
