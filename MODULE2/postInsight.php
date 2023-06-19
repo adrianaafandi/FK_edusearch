@@ -10,23 +10,19 @@ $query = "SELECT DATE_FORMAT(date, '%Y-%m') AS month, COUNT(*) AS count FROM dis
 $result = mysqli_query($link, $query);
 
 // Prepare the data for the chart
-$xValues = [];
-$yValues = [];
-$barColors = [];
+$months = [];
+$postCounts = [];
 
 while ($row = mysqli_fetch_assoc($result)) {
     $month = $row['month'];
     $count = $row['count'];
-    $xValues[] = $month;
-    $yValues[] = $count;
-    // Generate random bar colors
-    $barColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+    $months[] = $month;
+    $postCounts[] = $count;
 }
 
 // Convert the PHP arrays to JSON format for JavaScript usage
-$xValuesJSON = json_encode($xValues);
-$yValuesJSON = json_encode($yValues);
-$barColorsJSON = json_encode($barColors);
+$monthsJSON = json_encode($months);
+$postCountsJSON = json_encode($postCounts);
 ?>
 
 <!DOCTYPE html>
@@ -49,31 +45,37 @@ $barColorsJSON = json_encode($barColors);
     </div>
 
     <script>
-        var xValues = <?php echo $xValuesJSON; ?>;
-        var yValues = <?php echo $yValuesJSON; ?>;
-        var barColors = <?php echo $barColorsJSON; ?>;
+        var months = <?php echo $monthsJSON; ?>;
+        var postCounts = <?php echo $postCountsJSON; ?>;
 
         new Chart("myChart", {
             type: "bar",
             data: {
-                labels: xValues,
+                labels: months,
                 datasets: [{
-                    backgroundColor: barColors,
-                    data: yValues
+                    label: "Total Posts",
+                    data: postCounts,
+                    backgroundColor: "rgba(54, 162, 235, 0.6)"
                 }]
             },
             options: {
                 responsive: true,
                 scales: {
                     x: {
-                        grid: {
-                            display: false
+                        title: {
+                            display: true,
+                            text: "Month"
                         }
                     },
                     y: {
                         beginAtZero: true,
-                        precision: 0,
-                        suggestedMax: Math.max(...yValues) + 5
+                        title: {
+                            display: true,
+                            text: "Total Posts"
+                        },
+                        ticks: {
+                            precision: 0
+                        }
                     }
                 }
             }
