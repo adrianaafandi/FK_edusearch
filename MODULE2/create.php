@@ -53,12 +53,75 @@ $date = "";
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>FK_EDUSEARCH</title>
+    <style>
+        .container-with-shadow {
+            background-color: #F8F8F8;
+            padding: 20px;
+            margin-top: 30px;
+            margin-left: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .content {
+            margin-top: 30px;
+            margin-left: 10px;
+        }
+    </style>
 </head>
 
 <body>
     <?php include '../UserSideBar/User_sidebar.php'; ?>
-    <div class="content">
-        <div style="margin-top: 30px; margin-left: 10px;">
+    <div class="container-with-shadow">
+        <div class="content">
+            <?php
+            // Connect to the database server.
+            $link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
+
+            // Select the database
+            mysqli_select_db($link, "fkedusearch_module2") or die(mysqli_error($link));
+
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                // Retrieve form data
+                $category_id = $_POST["category_id"];
+                $title = $_POST["title"];
+                $content = $_POST["content"];
+                $tags = $_POST["tags"];
+                $date = $_POST["date"];
+
+                // Validate form fields
+                if (empty($category_id) || empty($title) || empty($content) || empty($tags) || empty($date)) {
+                    echo '<script>alert("Please fill in all the fields!!");</script>';
+                } else {
+                    // Prepare the INSERT statement
+                    $insertQuery = "INSERT INTO discussion (category_id, title, content, tags, date) VALUES (?, ?, ?, ?, ?)";
+                    $stmt = mysqli_prepare($link, $insertQuery);
+
+                    // Bind parameters to the statement
+                    mysqli_stmt_bind_param($stmt, "issss", $category_id, $title, $content, $tags, $date);
+
+                    // Execute the statement
+                    if (mysqli_stmt_execute($stmt)) {
+                        echo "Record inserted successfully.";
+                        header("Location: view.php"); // Redirect to view.php
+                        exit();
+                    } else {
+                        echo "Error inserting record: " . mysqli_stmt_error($stmt);
+                    }
+                }
+            }
+
+            // Fetch the categories from the database
+            $categoryQuery = "SELECT * FROM category";
+            $categoryResult = mysqli_query($link, $categoryQuery);
+
+            // Initialize variables with empty values
+            $category_id = "";
+            $title = "";
+            $content = "";
+            $tags = "";
+            $date = "";
+            ?>
+
             <form class="row g-3" method="POST" action="" onsubmit="return validateForm();">
                 <h6 align="left"><b>CREATE NEW POST</b></h6><br><br>
                 <div class="mb-3 row" style="margin-top: 10px;">
@@ -109,7 +172,7 @@ $date = "";
             </form>
         </div>
     </div>
-
+<br><br><br>
     <script>
         function validateForm() {
             var category = document.getElementById("category_id").value;
