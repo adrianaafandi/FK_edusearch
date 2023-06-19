@@ -20,10 +20,8 @@
     td {
       padding: 8px;
       text-align: left;
-      border: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
     }
-
-
 
     tr:hover {
       background-color: #f5f5f5;
@@ -48,6 +46,7 @@
 
     <table>
       <tr>
+      <th>No.</th>
         <th>Name</th>
         <th>Email</th>
         <th>Action</th>
@@ -58,23 +57,29 @@
 
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Retrieve form data
-        $name = $_POST["name"];
+        $fullname = $_POST["fullname"];
         $email = $_POST["email"];
       }
 
       // Fetch user data from the database
-      $query = "SELECT * FROM users";
+      $query = "SELECT * FROM user";
       $result = mysqli_query($link, $query);
+
+      $rowNumber = 1;
 
       // Loop through each user and generate a row in the table
       while ($row = mysqli_fetch_assoc($result)) {
-        $name = $row['name'];
+        
+        $fullname = $row['fullname'];
         $email = $row['email'];
         echo "<tr>";
-        echo "<td>$name</td>";
+        echo "<td>$rowNumber</td>";
+        echo "<td>$fullname</td>";
         echo "<td>$email</td>";
         echo "<td><div class='view-icon' onclick='redirectToUserDetails(\"$email\")'></div></td>";
         echo "</tr>";
+
+        $rowNumber++;
       }
 
       // Close the database connection
