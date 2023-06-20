@@ -5,12 +5,12 @@ $link = mysqli_connect("localhost", "root", "", "fkedusearch", "8111") or die(my
 // Select the database
 mysqli_select_db($link, "fkedusearch") or die(mysqli_error($link));
 
-// Fetch the categories from the database
-$categoryQuery = "SELECT * FROM category";
-$categoryResult = mysqli_query($link, $categoryQuery);
+// // Fetch the categories from the database
+// $categoryQuery = "SELECT * FROM category";
+// $categoryResult = mysqli_query($link, $categoryQuery);
 
-// Fetch the posts from the database based on the selected category
-$category_id = $_POST['category_id'] ?? ''; // Get the selected category ID from the form
+// // Fetch the posts from the database based on the selected category
+// $category_id = $_POST['category_id'] ?? ''; // Get the selected category ID from the form
 
 // Construct the post query
 $postQuery = "SELECT * FROM discussion";
