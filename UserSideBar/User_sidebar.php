@@ -133,6 +133,12 @@ ob_start(); // Start output buffering
             <img src="../public/picture10.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
                 Complaint</span>
         </a>
+
+        <a href="userFeedback.php" align="left">
+            <img src="../public/picture10.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
+                Logout</span>
+        </a>
+
     </div>
 
     <div id="main">

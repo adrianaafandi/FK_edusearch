@@ -153,6 +153,7 @@
           <button type="button" class="cancel-button" onclick="cancelReport()">Cancel</button>
         </div>
       </form>
+      <br><br><br>
     </div>
   </div>
   </div>
