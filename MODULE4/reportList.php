@@ -334,21 +334,6 @@
   <?php
   $link = mysqli_connect("localhost", "root", "", "FK_edusearch", "3307") or die(mysqli_connect_error());
 
-  if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
-    $report_id = $_POST["report_id"];
-    $status = $_POST["status"];
-
-    // Update the status in the database
-    $updateQuery = "UPDATE report SET status = '$status' WHERE report_id = $report_id";
-    $updateResult = mysqli_query($link, $updateQuery);
-
-    if ($updateResult) {
-      echo "<script>alert('Status updated successfully.');</script>";
-    } else {
-      echo "Error updating the status: " . mysqli_error($link);
-    }
-  }
 
   $query = "SELECT r.report_id, r.reporter_name, r.datentime, r.type_id, t.type_type, r.reportDetails, r.status
           FROM report r

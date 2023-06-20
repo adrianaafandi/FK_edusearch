@@ -106,10 +106,11 @@ ob_start(); // Start output buffering
         <img src="../public/picture9.png" style="height:100px; width:100%;" style="margin-top:100px; ">
 
 
-        <a class="active" href="AdminHomepage.php" align="left">
-        <img src="../public/picture4.png"
-                style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Admin</span>
+
+        <a href="../MODULE1/AdminHomepage.php" align="left">
+            <img src="../public/picture4.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
+                User</span>
+
         </a>
 
         <a href="ManageUserProfile.php" align="left" >
@@ -118,6 +119,10 @@ ob_start(); // Start output buffering
                 Manage User Profile</span>
         </a> 
 
+
+        <a href="../module" align="left">
+            <img src="../public/picture7.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
+                Expert</span>
         </a>
 
         <a href="../MODULE4/reportList.php" align="left" >
