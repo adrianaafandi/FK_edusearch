@@ -11,16 +11,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tags = $_POST["tags"];
     $date = $_POST["date"];
 
-    // Construct UPDATE query
-    $updateQuery = "UPDATE discussion SET category_id='$category_id', title='$title', content='$content', tags='$tags', date='$date' WHERE discussion_id=$discussion_id";
+    // Prepare the UPDATE statement
+    $updateQuery = "UPDATE discussion SET category_id=?, title=?, content=?, tags=?, date=? WHERE discussion_id=?";
+    $stmt = mysqli_prepare($link, $updateQuery);
+    
+    // Bind parameters to the statement
+    mysqli_stmt_bind_param($stmt, "issssi", $category_id, $title, $content, $tags, $date, $discussion_id);
 
-    // Execute UPDATE query
-    if (mysqli_query($link, $updateQuery)) {
+    // Execute the statement
+    if (mysqli_stmt_execute($stmt)) {
         echo "Record updated successfully.";
         header("Location: view.php"); // Redirect to view.php
         exit();
     } else {
-        echo "Error updating record: " . mysqli_error($link);
+        echo "Error updating record: " . mysqli_stmt_error($stmt);
     }
 } else {
     echo "Invalid request";
@@ -28,4 +32,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Close the database connection
 mysqli_close($link);
-?>

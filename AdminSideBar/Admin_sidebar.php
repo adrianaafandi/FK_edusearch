@@ -1,9 +1,12 @@
+<?php
+ob_start(); // Start output buffering
+?>
+
 <!DOCTYPE html>
 <html>
 
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>FK_EDUSEARCH</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -36,7 +39,7 @@
             transition: 0.3s;
             font-family: "Century Gothic", sans-serif;
         }
-        
+
         .sidebar a.active {
             background-color: #3FBBB7;
             color: white;
@@ -98,8 +101,9 @@
 </head>
 
 <body>
-<div id="mySidebar" class="sidebar">
-<img src="../public/picture9.png" style="height:100px; width:100%; style="margin-top:100px; ">
+    <div id="mySidebar" class="sidebar">
+
+        <img src="../public/picture9.png" style="height:100px; width:100%;" style="margin-top:100px; ">
 
 
         <a class="active" href="AdminHomepage.php" align="left">
@@ -117,9 +121,10 @@
         </a>
 
         <a href="../MODULE4/reportList.php" align="left" >
+
         <img src="../public/picture8.png"
                 style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Report</span>
+                User Report</span>
         </a>
 
 
@@ -131,26 +136,27 @@
 
 </div>
 
-<div id="main">
-<img src="../public/banner.png" style="height:200px" width="100%">
 
-    <button class="openbtn" onclick="toggleNav()">☰</button>
-</div>
+    <div id="main">
+        <img src="../public/banner.png" style="height:200px" width="100%">
 
-<script>
-    function toggleNav() {
-        var sidebar = document.getElementById("mySidebar");
-        var main = document.getElementById("main");
+        <button class="openbtn" onclick="toggleNav()">☰</button>
+    </div>
 
-        if (sidebar.style.width === "250px") {
-            sidebar.style.width = "0";
-            main.style.marginLeft = "0";
-        } else {
-            sidebar.style.width = "250px";
-            main.style.marginLeft = "250px";
+    <script>
+        function toggleNav() {
+            var sidebar = document.getElementById("mySidebar");
+            var main = document.getElementById("main");
+
+            if (sidebar.style.width === "250px") {
+                sidebar.style.width = "0";
+                main.style.marginLeft = "0";
+            } else {
+                sidebar.style.width = "250px";
+                main.style.marginLeft = "250px";
+            }
         }
-    }
-</script>
+    </script>
 
 </body>
 

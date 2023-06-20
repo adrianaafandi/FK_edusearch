@@ -5,7 +5,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/bootstrap-icons.min.css" rel="stylesheet">
     <title>FK_EDUSEARCH</title>
-    <img src="img.png" class="img-fluid">
     <style>
         .post-container {
             margin-bottom: 30px;
@@ -66,11 +65,14 @@
             margin-bottom: 5px;
         }
     </style>
-
 </head>
 
 <body>
-    <br><br>
+    <?php include '../UserSideBar/User_sidebar.php' ?>
+    <br>
+    <h3><b>&nbsp;&nbsp;YOUR POST</b></h3>
+    <br>
+
     <?php
     // Establish a database connection
     $link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());

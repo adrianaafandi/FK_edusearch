@@ -2,7 +2,6 @@
 <html>
 
 <head>
-  <img src="../public/banner.png" style="height:200px" width="1520px">
   <style>
     .user-details {
       background-color: #f9f9f9;
@@ -36,80 +35,76 @@
       background-size: cover;
       cursor: pointer;
     }
-    nav {
-      float: left;
-      width: 10%;
-      height: 490px;
-      background: #a9a8a8;
-      padding: 20px;
-      border-radius: 25px;
+
+    .user-report {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      width: 800px; /* Adjust the width as desired */
     }
-    
-    div {
-      background: #d5d5d5;
-      padding-left: 210px;
-      padding-top: 20px;
-      border-radius: 25px;
-      height: 510px;
-    }
-    
   </style>
 </head>
 
 <body>
-<nav>
-    <a href="LoginSuccessful.php">Home</a><br>
-    <a href="ManageUserProfile.php">Manage User Profile</a><br>
-    <a href="UserReportList.php">Report</a><br>
-    <a href="Logout.php">Logout Here</a>
-  </nav>
+  <?php include '../AdminSideBar/Admin_sidebar.php'; ?>
 
-<div class="user-list">
-        <h2>User Report</h2>
+  <div class="user-list" align='center'>
+    <h2 align='center'>User Report</h2>
 
-        <div class="user-report">
-            <?php
+    <div class="user-report" align='center'>
+      <?php
+      $link = mysqli_connect("localhost", "root", "", "FK_edusearch", "3307") or die(mysqli_connect_error());
 
-            $link = mysqli_connect("localhost", "root", "", "FK_edusearch", "3307") or die(mysqli_connect_error());
+      // Fetch user data from the database
+      $email = $_GET['email'];
 
-            // Fetch user data from the database
-            $email = $_GET['email'];
+      // Query to retrieve user details and count total discussions, likes, and comments
+      $query = "SELECT u.fullname, u.email, COUNT(d.discussion_id) AS total_discussions, SUM(d.discussion_like) AS total_likes, SUM(d.discussion_comment) AS total_comments
+                FROM user u
+                INNER JOIN discussion d ON u.user_id = d.user_id
+                WHERE u.email = '$email'";
 
-            $query = "SELECT * FROM users WHERE email = '$email'";
-            $result = mysqli_query($link, $query);
+      $result = mysqli_query($link, $query);
 
-            // Check if the user exists
-            if (mysqli_num_rows($result) > 0) {
-                $row = mysqli_fetch_assoc($result);
-                $name = $row['name'];
-                $email = $row['email'];
-                $totalPosts = $row['total_posts'];
-                $totalLikes = $row['total_likes'];
-                $totalComments = $row['total_comments'];
+      // Check if the user exists
+      if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $fullname = $row['fullname'];
+        $email = $row['email'];
+        $totalDiscussions = $row['total_discussions'];
+        $totalLikes = $row['total_likes'];
+        $totalComments = $row['total_comments'];
 
-                echo "<h3>$name</h3>";
+        echo "<h3>$fullname</h3>";
 
-                echo "<table>";
-                echo "<tr><th>Total Posts:</th><td>$totalPosts</td></tr>";
-                echo "<tr><th>Total Likes:</th><td>$totalLikes</td></tr>";
-                echo "<tr><th>Total Comments:</th><td>$totalComments</td></tr>";
-                echo "</table>";
-            } else {
-                echo "User not found.";
-            }
+        echo "<table>";
+        echo "<tr><th>Total Discussions:</th><td>$totalDiscussions</td></tr>";
+        echo "<tr><th>Total Likes:</th><td>$totalLikes</td></tr>";
+        echo "<tr><th>Total Comments:</th><td>$totalComments</td></tr>";
+        echo "</table>";
+      } else {
+        echo "User not found.";
+      }
 
-            // Close the database connection
-            mysqli_close($link);
-            ?>
-        </div>
+      // Close the database connection
+      mysqli_close($link);
+      ?>
     </div>
+  </div>
+  <br>
+  <div class="d-grid gap-2 col-3 mx-auto">
+  <button class="btn btn-primary" type="button" onclick="window.location.href='userReportList.php'">Back</button>
+</div>
 
-    <script>
-        function viewUserDetails(email) {
-            // Perform action to view user details using the provided email
-            alert('Viewing details for user with email: ' + email);
-            // You can redirect to a new page or display the details dynamically in the same page
-        }
+  <script>
+    function viewUserDetails(email) {
+      // Perform action to view user details using the provided email
+      alert('Viewing details for user with email: ' + email);
+      // You can redirect to a new page or display the details dynamically in the same page
+    }
+
     </script>
 </body>
 

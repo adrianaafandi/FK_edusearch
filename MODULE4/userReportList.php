@@ -1,95 +1,89 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>User Report List</title>
-<img src="../public/banner.png" style="height:200px" width="1520px">
+  <title>User Report List</title>
+
   <style>
+    h2 {
+      text-align: center;
+    }
+
     table {
       border-collapse: collapse;
-      width: 100%;
+      width: 90%;
+      margin: 0 auto;
+      border: 1px solid #ddd;
     }
-    
-    th, td {
+
+    th,
+    td {
       padding: 8px;
       text-align: left;
       border-bottom: 1px solid #ddd;
     }
-    
-    tr:hover {background-color: #f5f5f5;}
-    
-    .view-icon {
-      width: 1px;
-      height: 1px;
-      background-image: url(../public/search.png);
-      background-repeat: no-repeat;
-      background-size: 10px;
-      background-position: center;
-      cursor: pointer;
+
+    tr:hover {
+      background-color: #f5f5f5;
     }
 
-    nav {
-      float: left;
-      width: 10%;
-      height: 490px;
-      background: #a9a8a8;
-      padding: 20px;
-      border-radius: 25px;
-    }
-    
-    div {
-      background: #d5d5d5;
-      padding-left: 210px;
-      padding-top: 20px;
-      border-radius: 25px;
-      height: 510px;
+    .view-icon {
+      width: 16px;
+      height: 16px;
+      background-image: url(../public/search.png);
+      background-repeat: no-repeat;
+      background-size: cover;
+      cursor: pointer;
     }
   </style>
 </head>
-<body>
 
-  <nav>
-    <a href="LoginSuccessful.php">Home</a><br>
-    <a href="ManageUserProfile.php">Manage User Profile</a><br>
-    <a href="UserReportList.php">Report</a><br>
-    <a href="Logout.php">Logout Here</a>
-  </nav>
+<body>
+  <?php include '../AdminSideBar/Admin_sidebar.php'; ?>
 
   <div>
     <h2>User Report List</h2>
 
     <table>
       <tr>
+      <th>No.</th>
         <th>Name</th>
         <th>Email</th>
-        <th>&nbsp;&nbsp;Action</th>
+        <th>Action</th>
       </tr>
       <?php
-        
-        $link = mysqli_connect("localhost", "root", "", "FK_edusearch", "3307") or die(mysqli_connect_error());
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-          // Retrieve form data
-          $name = $_POST["name"];
-          $email = $_POST["email"];
-        }
+      $link = mysqli_connect("localhost", "root", "", "FK_edusearch", "3307") or die(mysqli_connect_error());
+
+      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Retrieve form data
+        $fullname = $_POST["fullname"];
+        $email = $_POST["email"];
+      }
+
+      // Fetch user data from the database
+      $query = "SELECT * FROM user";
+      $result = mysqli_query($link, $query);
+
+      $rowNumber = 1;
+
+      // Loop through each user and generate a row in the table
+      while ($row = mysqli_fetch_assoc($result)) {
         
-        // Fetch user data from the database
-        $query = "SELECT * FROM users";
-        $result = mysqli_query($link, $query);
-        
-        // Loop through each user and generate a row in the table
-        while ($row = mysqli_fetch_assoc($result)) {
-          $name = $row['name'];
-          $email = $row['email'];
-          echo "<tr>";
-          echo "<td>$name</td>";
-          echo "<td>$email</td>";
-          echo "<td>"."<div class='view-icon' onclick='redirectToUserDetails(\"$email\")'></div></td>";
-          echo "</tr>";
-        }
-        
-        // Close the database connection
-        mysqli_close($link);
+        $fullname = $row['fullname'];
+        $email = $row['email'];
+        echo "<tr>";
+        echo "<td>$rowNumber</td>";
+        echo "<td>$fullname</td>";
+        echo "<td>$email</td>";
+        echo "<td><div class='view-icon' onclick='redirectToUserDetails(\"$email\")'></div></td>";
+        echo "</tr>";
+
+        $rowNumber++;
+      }
+
+      // Close the database connection
+      mysqli_close($link);
       ?>
     </table>
   </div>
@@ -101,4 +95,5 @@
     }
   </script>
 </body>
+
 </html>

@@ -2,6 +2,8 @@
 <html>
 
 <head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <style>
     .report-form {
       background-color: #f9f9f9;
@@ -54,7 +56,7 @@
 </head>
 
 <body>
-<?php include '../UserSideBar/User_sidebar.php'; ?>
+  <?php include '../UserSideBar/User_sidebar.php' ?>
 
   <?php
   // Connect to the database server.
@@ -62,99 +64,117 @@
 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
-    $reporter_name = $_POST["reporter-name"];
-    $datentime = $_POST["report-date"];
-    $report_types = $_POST["report-type"];
-    $reportDetails = $_POST["report-details"];
+    $type_id = $_POST["type_id"];
+    $reporter_name = $_POST["reporter_name"];
+    $datentime = $_POST["datentime"];
+    $reportDetails = $_POST["reportDetails"];
 
-    // Construct INSERT query
-    $insertQuery = "INSERT INTO report (reporter_name, datentime, report_types, reportDetails) VALUES ('$reporter_name', '$datentime', '$report_types', '$reportDetails')";
-
-    // Execute INSERT query
-    if (mysqli_query($link, $insertQuery)) {
-      echo "Record inserted successfully.";
-      header("Location: reportList.php");
-      exit();
+    if (empty($type_id) || empty($reporter_name) || empty($datentime) || empty($reportDetails)) {
+      echo '<script>alert("Please fill in all the fields!!");</script>';
     } else {
-      echo "Error inserting record: " . mysqli_error($link);
+      // Retrieve the maximum report ID from the database
+      $maxReportIdQuery = "SELECT MAX(report_id) AS max_id FROM report";
+      $maxReportIdResult = mysqli_query($link, $maxReportIdQuery);
+      $maxReportIdRow = mysqli_fetch_assoc($maxReportIdResult);
+      $maxReportId = $maxReportIdRow['max_id'];
+
+      // Calculate the new report ID by adding 1 to the maximum ID
+      $newReportId = $maxReportId + 1;
+
+      // Construct INSERT query with the manually specified report ID
+      $insertQuery = "INSERT INTO report (report_id, type_id, reporter_name, datentime, reportDetails) VALUES ('$newReportId', '$type_id', '$reporter_name', '$datentime', '$reportDetails')";
+
+      // Execute INSERT query
+      if (mysqli_query($link, $insertQuery)) {
+        header("Location: homepage.php"); // Redirect to view.php
+        exit();
+      } else {
+        echo "Error inserting record: " . mysqli_error($link);
+      }
     }
   }
 
   // SQL query with INNER JOIN
-  $query = "SELECT r.*, c.report_types FROM report r INNER JOIN report_types c ON r.report_types = c.report_types";
-  $result = mysqli_query($link, $query);
+  $typeQuery = "SELECT * FROM type";
+  $typeResult = mysqli_query($link, $typeQuery);
 
-  if (mysqli_num_rows($result) > 0) {
-    // output data of each row
-    while ($row = mysqli_fetch_assoc($result)) {
-      $reporter_name = $_POST["reporter-name"];
-      $datentime = $_POST["report-date"];
-      $report_types = $_POST["report-type"];
-      $reportDetails = $_POST["report-details"];
-    }
-
-  } else {
-    // If no rows found, initialize variables with empty values
-    $reporter_name = " ";
-    $datentime = " ";
-    $report_types = " ";
-    $reportDetails = " ";
-  }
-
+  // If no rows found, initialize variables with empty values
+  $type_id = "";
+  $reporter_name = "";
+  $datentime = "";
+  $reportDetails = "";
   ?>
 
   <title>Report</title>
 
-  <div class="report-form">
-    <h1>Report Form</h1>
+  <div class="report">
+    <div style="margin-top: 30px; margin-left: 10px;">
+      <form class="row g-3" method="POST" action="" onsubmit="return validateForm();">
+        <h6 align="left"><b>MAKE A REPORT</b></h6><br><br>
+        <div class="mb-3 row">
+          <label for="reporter_name" class="col-sm-2 col-form-label">Name</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="reporter_name" name="reporter_name"
+              value="<?php echo $reporter_name; ?>">
+          </div>
+        </div>
 
-    <form action="submit_report.php" method="POST">
-      <label for="reporter-name">Reporter's Name</label>
-      <input type="text" id="reporter-name" name="reporter-name" required>
-
-      <br>
-      <label for="report-date">Date and Time</label>
-      <input type="datetime-local" id="report-date" name="report-date" required>
-
-      <br><br>
-      <label for="report-type">Report Type</label>
-      <select id="report-type" name="report-type" required>
-        <option value="">Select Report Type</option>
-        <?php
-
-
-        $link = mysqli_connect("localhost", "root", "", "FK_edusearch", "3307") or die(mysqli_connect_error());
-        // Fetch report types from the database
-        $query = "SELECT * FROM report_types";
-        $result = mysqli_query($link, $query);
-
-        // Loop through each report type and generate an option in the select dropdown
-        while ($row = mysqli_fetch_assoc($result)) {
-          $type = $row['type'];
-          echo "<option value='$type'>$type</option>";
-        }
-
-        // Check connection
-        if ($conn->connect_error) {
-          die("Connection failed: " . $conn->connect_error);
-        }
-        ?>
-      </select>
-
-      <label for="report-details">Report Details</label>
-      <textarea id="report-details" name="report-details" required></textarea>
-
-      <div class="button-container">
-        <button type="submit" class="submit-button">Submit</button>
-        <button type="button" class="cancel-button" onclick="cancelReport()">Cancel</button>
-      </div>
-    </form>
+        <div class="mb-3 row" style="margin-top: 10px;">
+          <label for="type_id" class="col-sm-2 col-form-label">Report Type</label>
+          <div class="col-sm-10">
+            <select class="form-select" id="type_id" name="type_id" aria-label="Default select example">
+              <option value="">Select report type</option>
+              <?php
+              while ($typeRow = mysqli_fetch_assoc($typeResult)) {
+                $type_id = $typeRow['type_id'];
+                $type_type = $typeRow['type_type'];
+                echo "<option value='$type_id'>$type_type</option>";
+              }
+              ?>
+            </select>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="datentime" class="col-sm-2 col-form-label">Date</label>
+          <div class="col-sm-10">
+            <input type="date" class="form-control" id="datentime" name="datentime" value="<?php echo $datentime; ?>">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="" class="col-sm-2 col-form-label">Report Detail</label>
+          <div class="col-sm-10">
+            <textarea class="form-control" id="reportDetails" name="reportDetails"
+              rows="5"><?php echo $reportDetails; ?></textarea>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button type="submit" class="btn btn-primary">SUBMIT</button>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <button type="button" class="cancel-button" onclick="cancelReport()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
   </div>
 
- <script>
+  <script>
     function cancelReport() {
       // Redirect to the previous page or perform any desired action
       window.history.back();
+    }
+
+    function validateForm() {
+      var type = document.getElementById("$type_id").value;
+      var reporter_name = document.getElementById("reporter_name").value;
+      var datentime = document.getElementById("datentime").value;
+      var reportDetails = document.getElementById("reportDetails").value;
+
+      if (type === "" || reporter_name === "" || datentime === "" || reportDetails === "") {
+        alert("Please fill in all the fields!!");
+        return false;
+      }
+
+      return true;
     }
   </script>
 </body>

@@ -30,21 +30,32 @@ $numPosts = mysqli_num_rows($postResult);
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .dot {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .green-dot {
+            background-color: green;
+        }
+
+        .red-dot {
+            background-color: red;
+        }
+    </style>
     <title>FK_EDUSEARCH</title>
 </head>
-<style>
-    .row.shadow {
-        background-color: #F8F8F8;
-    }
-</style>
 
 <body>
-    <?php include '../UserSideBar/User_sidebar.php' ?>
+    <?php include '../AdminSideBar/Admin_sidebar.php' ?>
 
     <div class="content" style="margin-top: 10px; margin-left: 10px;">
-        <h2><b>YOUR POST</b></h2><br>
-        <button type="button" class="btn btn-primary" onclick="window.location.href = 'create.php';">+ NEW POST</button>
-        <br><br><br>
+        <h2><b>USER'S POST</b></h2>
+        <br><br>
         <form class="row g-3" method="POST" action="">
             <div class="mb-3 row" style="margin-top: 10px;">
                 <label for="category_id" class="col-sm-2 col-form-label" style="font-size: 24px;"><b>CATEGORY</b></label>
@@ -73,14 +84,15 @@ $numPosts = mysqli_num_rows($postResult);
             while ($row = mysqli_fetch_assoc($postResult)) {
                 $discussion_id = $row['discussion_id'];
                 $title = $row['title'];
+                $expert_id = $row['expert_id'];
+                $dotClass = ($expert_id > 0) ? 'green-dot' : 'red-dot';
 
                 echo "<div class='col-sm-3'>";
                 echo "<table class='table table-bordered'>";
-                echo "<thead><tr><th colspan='3'>$title</th></tr></thead>";
+                echo "<thead><tr><th colspan='3'><span class='dot $dotClass'></span>$title</th></tr></thead>";
                 echo "<tbody>";
                 echo "<tr><td><button class='btn btn-danger' onclick='deletePost($discussion_id)'><i class='fas fa-trash'></i></button></td>";
-                echo "<td><button class='btn btn-primary' onclick='editPost($discussion_id)'><i class='fas fa-edit'></i></button></td>";
-                echo "<td><button class='btn btn-success' onclick='viewPost($discussion_id)'><i class='fas fa-eye'></i></button></td></tr>";
+                echo "<td><button class='btn btn-primary' onclick='assignPost($discussion_id)'><i class='fas fa-edit'></i></button></td></tr>";
                 echo "</tbody>";
                 echo "</table>";
                 echo "</div>";
@@ -119,12 +131,8 @@ $numPosts = mysqli_num_rows($postResult);
             }
         }
 
-        function editPost(discussion_id) {
-            window.location.href = "edit.php?discussion_id=" + discussion_id;
-        }
-
-        function viewPost(discussion_id) {
-            window.location.href = "viewPost.php?discussion_id=" + discussion_id
+        function assignPost(discussion_id) {
+            window.location.href = "assignPost.php?discussion_id=" + discussion_id;
         }
     </script>
 </body>
