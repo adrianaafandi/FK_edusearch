@@ -106,40 +106,36 @@ ob_start(); // Start output buffering
         <img src="../public/picture9.png" style="height:100px; width:100%;" style="margin-top:100px; ">
 
 
-        <a href="adminhomepage.php" align="left">
-            <img src="../public/picture4.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                User</span>
+        <a class="active" href="AdminHomepage.php" align="left">
+        <img src="../public/picture4.png"
+                style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
+                Admin</span>
         </a>
 
-        <a href="viewAdmin.php" align="left">
-            <img src="../public/picture6.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Discussion</span>
+        <a href="ManageUserProfile.php" align="left" >
+        <img src="../public/picture10.png"
+                style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
+                Manage User Profile</span>
+        </a> 
+
         </a>
 
-        <a href="#expert" align="left">
-            <img src="../public/picture7.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Expert</span>
-        </a>
+        <a href="../MODULE4/reportList.php" align="left" >
 
-
-        <a href="userReportList.php" align="left" >
         <img src="../public/picture8.png"
                 style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
                 User Report</span>
         </a>
 
-        <a href="reportList.php" align="left" >
-        <img src="../public/picture8.png"
+
+        <a href="Logout.php" align="left" >
+        <img src="../public/picture10.png"
                 style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Report List</span>
+                Logout</span>
+        </a> 
 
-        </a>
+</div>
 
-        <a href="#complaint" align="left">
-            <img src="../public/picture10.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Complaint</span>
-        </a>
-    </div>
 
     <div id="main">
         <img src="../public/banner.png" style="height:200px" width="100%">
