@@ -21,10 +21,10 @@ if ($result) {
     mysqli_query($link, $updateQuery);
     $updateQuery = "UPDATE report SET report_id = @count:= @count + 1";
     mysqli_query($link, $updateQuery);
-    
+
     // Create the delete query
     $deleteQuery = "DELETE FROM report WHERE report_id = $report_id";
-    
+
     // Execute the delete query
     $deleteResult = mysqli_query($link, $deleteQuery);
 

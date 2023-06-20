@@ -1,4 +1,5 @@
 <?php
+
 /*
 Filename: login-successful. php
 Purpose: To display protected web page if user is valid.
@@ -67,6 +68,7 @@ $result = mysqli_query($conn, $query);
     <link rel="stylesheet" type="text/css" href="">
 	<script src=".js"></script>
     </head>
+    
     <body>
     <header>
         <img src="Assets/img.png" style="height:200px" width="1520px">
