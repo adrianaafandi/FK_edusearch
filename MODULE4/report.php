@@ -86,7 +86,7 @@
 
       // Execute INSERT query
       if (mysqli_query($link, $insertQuery)) {
-        echo "Record inserted successfully.";
+        header("Location: homepage.php"); // Redirect to view.php
         exit();
       } else {
         echo "Error inserting record: " . mysqli_error($link);
