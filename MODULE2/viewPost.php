@@ -158,7 +158,7 @@
             while ($commentRow = mysqli_fetch_assoc($commentResult)) {
                 $commentContent = $commentRow['comment_content'];
                 echo "<div class='comment-container'>";
-                echo "<h4>Comment $commentNumber</h4>";
+                echo "<h4>User $commentNumber</h4>";
                 echo "<div class='comment-list'>";
                 echo "<p class='comment'>$commentContent</p>";
                 echo "</div>";
@@ -198,7 +198,7 @@
                 const newCommentContainer = document.createElement('div');
                 newCommentContainer.className = 'comment-container';
                 newCommentContainer.innerHTML = `
-                <h4>Comment ${commentNumber}</h4>
+                <h4>User ${commentNumber}</h4>
                 <div class='comment-list'>
                     <p class='comment'>${commentContent}</p>
                 </div>

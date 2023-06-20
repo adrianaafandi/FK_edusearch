@@ -35,8 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Fetch the categories from the database
-$categoryQuery = "SELECT * FROM category";
+// Fetch the distinct category_type values using an inner join between category and discussion tables
+$categoryQuery = "SELECT DISTINCT c.category_id, c.category_type FROM category AS c INNER JOIN discussion AS d ON c.category_id = d.category_id";
 $categoryResult = mysqli_query($link, $categoryQuery);
 
 // Initialize variables with empty values
@@ -73,55 +73,6 @@ $date = "";
     <?php include '../UserSideBar/User_sidebar.php'; ?>
     <div class="container-with-shadow">
         <div class="content">
-            <?php
-            // Connect to the database server.
-            $link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
-
-            // Select the database
-            mysqli_select_db($link, "fkedusearch_module2") or die(mysqli_error($link));
-
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                // Retrieve form data
-                $category_id = $_POST["category_id"];
-                $title = $_POST["title"];
-                $content = $_POST["content"];
-                $tags = $_POST["tags"];
-                $date = $_POST["date"];
-
-                // Validate form fields
-                if (empty($category_id) || empty($title) || empty($content) || empty($tags) || empty($date)) {
-                    echo '<script>alert("Please fill in all the fields!!");</script>';
-                } else {
-                    // Prepare the INSERT statement
-                    $insertQuery = "INSERT INTO discussion (category_id, title, content, tags, date) VALUES (?, ?, ?, ?, ?)";
-                    $stmt = mysqli_prepare($link, $insertQuery);
-
-                    // Bind parameters to the statement
-                    mysqli_stmt_bind_param($stmt, "issss", $category_id, $title, $content, $tags, $date);
-
-                    // Execute the statement
-                    if (mysqli_stmt_execute($stmt)) {
-                        echo "Record inserted successfully.";
-                        header("Location: view.php"); // Redirect to view.php
-                        exit();
-                    } else {
-                        echo "Error inserting record: " . mysqli_stmt_error($stmt);
-                    }
-                }
-            }
-
-            // Fetch the categories from the database
-            $categoryQuery = "SELECT * FROM category";
-            $categoryResult = mysqli_query($link, $categoryQuery);
-
-            // Initialize variables with empty values
-            $category_id = "";
-            $title = "";
-            $content = "";
-            $tags = "";
-            $date = "";
-            ?>
-
             <form class="row g-3" method="POST" action="" onsubmit="return validateForm();">
                 <h6 align="left"><b>CREATE NEW POST</b></h6><br><br>
                 <div class="mb-3 row" style="margin-top: 10px;">
@@ -172,7 +123,7 @@ $date = "";
             </form>
         </div>
     </div>
-<br><br><br>
+    <br><br><br>
     <script>
         function validateForm() {
             var category = document.getElementById("category_id").value;

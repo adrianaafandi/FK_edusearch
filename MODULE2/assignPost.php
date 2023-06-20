@@ -9,26 +9,39 @@ mysqli_select_db($link, "fkedusearch_module2") or die(mysqli_error($link));
 if (isset($_GET['discussion_id'])) {
     $discussion_id = $_GET['discussion_id'];
 
-    // Fetch the discussion details from the database
-    $discussionQuery = "SELECT * FROM discussion WHERE discussion_id = '$discussion_id'";
-    $discussionResult = mysqli_query($link, $discussionQuery);
-    if ($discussionRow = mysqli_fetch_assoc($discussionResult)) {
-        $title = $discussionRow['title'];
-        $content = $discussionRow['content'];
+    // Fetch the discussion details and assigned expert from the database using a join
+    $query = "SELECT discussion.*, expert.expert_name, category.category_type 
+              FROM discussion
+              LEFT JOIN expert ON discussion.expert_id = expert.expert_id
+              LEFT JOIN category ON discussion.category_id = category.category_id
+              WHERE discussion.discussion_id = '$discussion_id'";
+    $result = mysqli_query($link, $query);
 
-        // Display the discussion title and content in a post container
+    if ($row = mysqli_fetch_assoc($result)) {
+        $title = $row['title'];
+        $content = $row['content'];
+        $category_type = $row['category_type'];
+        $expertName = $row['expert_name'];
+
+        // Display the discussion title, content, and assigned expert in a post container
+        echo "<br><h2><b>&nbsp;&nbsp;ASSIGNING DISCUSSION</b></h2><br>";
         echo "<div class='post-container'>";
         echo "<div class='post'>";
-        echo "<h2>$title</h2>";
+        echo "<h3 class='text'>$category_type</h3><br>";
+        echo "<h5>Title: $title</h5>";
         echo "<p>$content</p>";
+        echo "<p>Assigned Expert: <b>$expertName</b></p>";
         echo "</div>";
         echo "</div>";
+
+        // Fetch the experts from the database based on the selected category_type
+        $expertQuery = "SELECT * FROM expert WHERE category_id = (
+            SELECT category_id FROM category WHERE category_type = '$category_type'
+        )";
+        $expertResult = mysqli_query($link, $expertQuery);
     }
 }
 
-// Fetch the expert details from the database
-$expertQuery = "SELECT * FROM expert";
-$expertResult = mysqli_query($link, $expertQuery);
 ?>
 
 <!DOCTYPE html>
@@ -39,6 +52,11 @@ $expertResult = mysqli_query($link, $expertQuery);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/bootstrap-icons.min.css" rel="stylesheet">
     <title>FK_EDUSEARCH</title>
     <style>
+        .text {
+            color: #74a87e;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
         .post-container {
             margin-bottom: 30px;
         }
@@ -65,46 +83,10 @@ $expertResult = mysqli_query($link, $expertQuery);
         .post button {
             margin-right: 20px;
         }
-
-        .comment-grid {
-            margin-top: 30px;
-            margin-left: 10px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .comment-container {
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f7f7f7;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            width: 1240px;
-            /* Adjust the width based on your preference */
-            box-sizing: border-box;
-        }
-
-        .comment-container h4 {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .comment-list {
-            margin-top: 20px;
-        }
-
-        .comment {
-            margin-bottom: 5px;
-        }
     </style>
 </head>
 
 <body>
-    <br>
-    <h3><b>&nbsp;&nbsp;ASSIGNING DISCUSSION</b></h3>
-    <br>
-
     <form class="row g-3" method="POST" action="">
         <div class="mb-3 row" style="margin-top: 10px; margin-left: 10px;">
             <label for="expert_id" class="col-sm-2 col-form-label">Expert Name</label>

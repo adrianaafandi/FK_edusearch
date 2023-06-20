@@ -142,6 +142,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn btn-primary">UPDATE</button>
+                    &nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='homepage.php'">CANCEL</button>
                 </div>
             </form>
         </div>

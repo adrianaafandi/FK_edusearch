@@ -12,10 +12,10 @@ $categoryResult = mysqli_query($link, $categoryQuery);
 // Fetch the posts from the database based on the selected category
 $category_id = $_POST['category_id'] ?? ''; // Get the selected category ID from the form
 
-// Construct the post query
-$postQuery = "SELECT * FROM discussion";
+// Construct the post query with the join between discussion and category tables
+$postQuery = "SELECT d.discussion_id, d.title, d.expert_id, c.category_type FROM discussion AS d INNER JOIN category AS c ON d.category_id = c.category_id";
 if (!empty($category_id)) {
-    $postQuery .= " WHERE category_id = $category_id";
+    $postQuery .= " WHERE c.category_id = $category_id";
 }
 $postResult = mysqli_query($link, $postQuery);
 
@@ -85,7 +85,7 @@ $numPosts = mysqli_num_rows($postResult);
                 $discussion_id = $row['discussion_id'];
                 $title = $row['title'];
                 $expert_id = $row['expert_id'];
-                $dotClass = ($expert_id > 0) ? 'green-dot' : 'red-dot';
+                $dotClass = ($expert_id > 0) ? 'green-dot' : 'red-dot'; //For status, red (not assign yet) green (already assigned)
 
                 echo "<div class='col-sm-3'>";
                 echo "<table class='table table-bordered'>";
