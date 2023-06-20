@@ -83,6 +83,11 @@
         echo "<tr><th>Total Discussions:</th><td>$totalDiscussions</td></tr>";
         echo "<tr><th>Total Likes:</th><td>$totalLikes</td></tr>";
         echo "<tr><th>Total Comments:</th><td>$totalComments</td></tr>";
+
+        // Calculate and display retention rate
+        $retentionRate = (($totalLikes + $totalComments) / $totalDiscussions) * 100;
+        echo "<tr><th>Retention Rate:</th><td>" . number_format($retentionRate, 2) . "%</td></tr>";
+
         echo "</table>";
       } else {
         echo "User not found.";
@@ -95,8 +100,8 @@
   </div>
   <br>
   <div class="d-grid gap-2 col-3 mx-auto">
-  <button class="btn btn-primary" type="button" onclick="window.location.href='userReportList.php'">Back</button>
-</div>
+    <button class="btn btn-primary" type="button" onclick="window.location.href='userReportList.php'">Back</button>
+  </div>
 
   <script>
     function viewUserDetails(email) {
@@ -104,8 +109,7 @@
       alert('Viewing details for user with email: ' + email);
       // You can redirect to a new page or display the details dynamically in the same page
     }
-
-    </script>
+  </script>
 </body>
 
 </html>

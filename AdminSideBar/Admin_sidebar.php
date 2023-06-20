@@ -125,11 +125,18 @@ ob_start(); // Start output buffering
                 Expert</span>
         </a>
 
-        <a href="../MODULE4/reportList.php" align="left" >
+        <a href="../MODULE4/userReportList.php" align="left" >
 
         <img src="../public/picture8.png"
                 style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
                 User Report</span>
+        </a>
+
+        <a href="../MODULE4/reportList.php" align="left" >
+
+        <img src="../public/picture8.png"
+                style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
+                 Report List</span>
         </a>
 
 
