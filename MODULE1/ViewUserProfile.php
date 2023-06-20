@@ -30,22 +30,6 @@ $result = mysqli_query($conn, $query);
 <!DOCTYPE html>
 <html>
 <style>
-        nav {
-                float: left;
-                width: 10%;
-                height: 530px;
-                background: #a9a8a8;
-                padding: 20px;
-                border-radius: 25px;
-            }
-            
-        div{
-                background: #d5d5d5;
-                padding-left: 210px;
-                padding-top: 0px;
-                border-radius: 25px;
-                height: 570px;
-        }
 
         .button{
                 border-radius: 1px;
@@ -69,17 +53,8 @@ $result = mysqli_query($conn, $query);
 	<script src=".js"></script>
     </head>
     <body>
-    <header>
-        <img src="Assets/img.png" style="height:200px" width="1520px">
-    </header>
-    <nav>
-        <a href="LoginSuccessful.php">Home</a><br>
-        <a href="ManageUserProfile.php">Manage User Profile</a><br>
-        <a href="Logout.php">Logout Here</a>
-    </nav>
-            
-
-    <div>
+    <?php include '../AdminSidebar/Admin_sidebar.php';?>
+    <div style="padding-left: 35px;">
         <form action="ManageUserProfile.php" method="post">
             <table>
                 <tr>

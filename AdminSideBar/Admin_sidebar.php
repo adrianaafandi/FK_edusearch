@@ -102,35 +102,33 @@
 <img src="../public/picture9.png" style="height:100px; width:100%; style="margin-top:100px; ">
 
 
-<a class="active" href="#user" align="left">
-    <img src="../public/picture4.png"
+        <a class="active" href="AdminHomepage.php" align="left">
+        <img src="../public/picture4.png"
                 style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                User</span>
+                Admin</span>
         </a>
 
-        <a href="#discussion" align="left" >
-        <img src="../public/picture6.png"
+        <a href="ManageUserProfile.php" align="left" >
+        <img src="../public/picture10.png"
                 style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Discussion</span>
+                Manage User Profile</span>
+        </a> 
+
         </a>
 
-        <a href="#expert" align="left" >
-        <img src="../public/picture7.png"
-                style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Expert</span>
-        </a>
-
-        <a href="#report" align="left" >
+        <a href="../MODULE4/reportList.php" align="left" >
         <img src="../public/picture8.png"
                 style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
                 Report</span>
         </a>
 
-        <a href="#complaint" align="left" >
+
+        <a href="Logout.php" align="left" >
         <img src="../public/picture10.png"
                 style="vertical-align: middle; height: 30px; width: 30px;"> <span style="vertical-align: middle;">&nbsp&nbsp
-                Complaint</span>
-        </a>
+                Logout</span>
+        </a> 
+
 </div>
 
 <div id="main">
