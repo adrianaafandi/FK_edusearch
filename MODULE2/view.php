@@ -5,17 +5,19 @@ $link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
 // Select the database
 mysqli_select_db($link, "fkedusearch_module2") or die(mysqli_error($link));
 
-// Fetch the categories from the database
-$categoryQuery = "SELECT * FROM category";
+// Fetch the categories from the database using a join query
+$categoryQuery = "SELECT c.category_id, c.category_type FROM category AS c INNER JOIN discussion AS d ON c.category_id = d.category_id GROUP BY c.category_id";
 $categoryResult = mysqli_query($link, $categoryQuery);
 
 // Fetch the posts from the database based on the selected category
 $category_id = $_POST['category_id'] ?? ''; // Get the selected category ID from the form
 
 // Construct the post query
-$postQuery = "SELECT * FROM discussion";
+$postQuery = "SELECT d.*, e.expert_name 
+              FROM discussion AS d 
+              LEFT JOIN expert AS e ON d.expert_id = e.expert_id";
 if (!empty($category_id)) {
-    $postQuery .= " WHERE category_id = $category_id";
+    $postQuery .= " WHERE d.category_id = $category_id";
 }
 $postResult = mysqli_query($link, $postQuery);
 
@@ -86,7 +88,7 @@ $numPosts = mysqli_num_rows($postResult);
                 echo "</div>";
             }
         } else {
-            echo "<p>No discussion post found.</p>";
+            echo "<p>No discussion posts found.</p>";
         }
 
         // Close the database connection
@@ -111,9 +113,13 @@ $numPosts = mysqli_num_rows($postResult);
                     data: {
                         discussion_id: discussion_id
                     },
+
                     success: function(response) {
                         console.log(response);
                         location.reload(); // Refresh the page after successful deletion
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText);
                     }
                 });
             }
@@ -124,7 +130,7 @@ $numPosts = mysqli_num_rows($postResult);
         }
 
         function viewPost(discussion_id) {
-            window.location.href = "viewPost.php?discussion_id=" + discussion_id
+            window.location.href = "viewPost.php?discussion_id=" + discussion_id;
         }
     </script>
 </body>

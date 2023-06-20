@@ -43,12 +43,11 @@
                     $tags = $row['tags'];
                     $date = $row['date'];
 
-                    // Fetch the categories from the database
-                    $categoryQuery = "SELECT * FROM category";
+                    // Fetch the distinct category_type values using an inner join between category and discussion tables
+                    $categoryQuery = "SELECT DISTINCT c.category_id, c.category_type FROM category AS c INNER JOIN discussion AS d ON c.category_id = d.category_id";
                     $categoryResult = mysqli_query($link, $categoryQuery);
-
-                    // Display the edit form
             ?>
+                    <!-- Display the edit form -->
                     <form class="row g-3" method="POST" action="update.php">
                         <h6 align="left"><b>EDIT POST</b></h6><br><br>
                         <div class="mb-3 row" style="margin-top: 10px;">
