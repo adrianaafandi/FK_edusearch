@@ -77,7 +77,7 @@
     <div class="content">
         <div style="margin-top: 30px; margin-left: 10px;">
             <form class="row g-3" method="POST" action="" onsubmit="return validateForm();">
-                <h5><b>UPDATE PROFILE INFORMATION</b></h5><br><br>
+                <h5><b>EXPERT INFORMATION</b></h5><br><br>
                 <div class="mb-3 row">
                     <label for="name" class="col-sm-2 col-form-label">Name</label>
                     <div class="col-sm-10">
@@ -119,20 +119,22 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="list_publication" name="list_publication" value="<?php echo $list_publication; ?>">
                     </div>
+                </div <div class="mb-3 row">
+                <label for="researchArea" class="col-sm-2 col-form-label">Research Area</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="research_area" name="research_area" value="<?php echo $research_area; ?>">
                 </div>
-                <div class="mb-3 row">
-                    <label for="researchArea" class="col-sm-2 col-form-label">Research Area</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="research_area" name="research_area" value="<?php echo $research_area; ?>">
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                <div class="col-sm-10 d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary">Edit</button>
-                    </div>
-                </div>
-            </form>
+        </div><br>
+
+        <div class="mb-3 row">
+            <div class="col-sm-10 d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">APPROVE</button>
+            </div>
         </div>
+
+        </form>
+
+    </div>
     </div>
 
     <script>
@@ -150,6 +152,13 @@
             }
 
             return true;
+        }
+
+        // Show a pop-up message
+        // When the user clicks on div, open the popup
+        function myFunction() {
+            var popup = document.getElementById("myPopup");
+            popup.classList.toggle("show");
         }
     </script>
 </body>

@@ -46,11 +46,10 @@
             <div class="info-box">
                 <div class="question-box">
                     <i class="fas fa-user-circle icon"></i>
-                    <span class="name">DR. NOORLINI</span><br>
-                    <p>Dr. Noorlini has made changes to her profile information.</p>
+                    <span class="name">DR. NOORLIN</span><br>
+                    <p>Dr. Noorlin has made changes to her profile information.</p>
                     <div class="approve-button">
-                        <input type="hidden" name="profile_id" value="1">
-                        <button type="submit" class="btn btn-primary">APPROVE</button>
+                        <button type="submit" class="btn btn-primary" onclick="window.location.href='approve.php'">VIEW</button>
                     </div>
                 </div><br>
 
@@ -59,8 +58,7 @@
                     <span class="name">DR. AHMAD FAKHRI</span><br>
                     <p>Dr. Ahmad Fakhri Bin Ab. Nasir has made changes to his profile information.</p>
                     <div class="approve-button">
-                        <input type="hidden" name="profile_id" value="1">
-                        <button type="submit" class="btn btn-primary">APPROVE</button>
+                        <button type="submit" class="btn btn-primary" onclick="window.location.href='approve.php'">VIEW</button>
                     </div>
                 </div><br>
 
@@ -69,8 +67,7 @@
                     <span class="name">DR. NOOR AZIDA</span><br>
                     <p>Dr. Noor Azida Binti Sahabudin has made changes to her profile information.</p>
                     <div class="approve-button">
-                        <input type="hidden" name="profile_id" value="1">
-                        <button type="submit" class="btn btn-primary">APPROVE</button>
+                        <button type="submit" class="btn btn-primary" onclick="window.location.href='approve.php'">VIEW</button>
                     </div>
                 </div><br>
             </div>

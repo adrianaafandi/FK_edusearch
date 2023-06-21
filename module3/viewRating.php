@@ -1,5 +1,4 @@
-warsena naa, [6/21/2023 6:03 AM]
-rating
+
 <!DOCTYPE html>
 <html>
 
@@ -68,7 +67,7 @@ rating
 
             <div class="question-box">
                 <i class="fas fa-user-circle"></i>
-                <span class="name">John Doe</span>
+                <span class="name">Haziq Iqbal</span>
                 <div class="rating">
                     <input type="radio" id="star5" name="rating" value="5" required  />
                     <input type="radio" id="star5-john" name="rating-john" value="5" required  />
@@ -96,7 +95,7 @@ rating
 
             <div class="question-box">
                 <i class="fas fa-user-circle"></i>
-                <span class="name">Felix</span>
+                <span class="name">Natasha</span>
                 <div class="rating">
                     <input type="radio" id="star5-felix" name="rating-felix" value="5" required />
                     <label for="star5-felix" title="5 stars"><i class="fas fa-star"></i></label>
