@@ -1,26 +1,36 @@
 <?php
 // Connect to the database server.
-$link = mysqli_connect("localhost", "root", "", "fkedusearch", "8111") or die(mysqli_connect_error());
+$link = mysqli_connect("localhost", "root", "", "fkedusearch", "8111",) or die(mysqli_connect_error());
 
 // Select the database
 mysqli_select_db($link, "fkedusearch") or die(mysqli_error($link));
 
-// // Fetch the categories from the database
-// $categoryQuery = "SELECT * FROM category";
-// $categoryResult = mysqli_query($link, $categoryQuery);
+// Check if a discussion ID is provided
+if (isset($_GET['discussion_id'])) {
+    $discussion_id = $_GET['discussion_id'];
 
-// // Fetch the posts from the database based on the selected category
-// $category_id = $_POST['category_id'] ?? ''; // Get the selected category ID from the form
+    // Fetch the discussion post
+    $discussionQuery = "SELECT * FROM discussion WHERE discussion_id = $discussion_id";
+    $discussionResult = mysqli_query($link, $discussionQuery);
+    $discussionRow = mysqli_fetch_assoc($discussionResult);
 
-// Construct the post query
-$postQuery = "SELECT * FROM discussion";
-if (!empty($category_id)) {
-    $postQuery .= " WHERE category_id = $category_id";
+    if ($discussionRow) {
+        $title = $discussionRow['title'];
+
+        // Fetch the answers for the discussion post
+        $answerQuery = "SELECT * FROM answer WHERE discussion_id = $discussion_id";
+        $answerResult = mysqli_query($link, $answerQuery);
+        $numAnswers = mysqli_num_rows($answerResult);
+    } else {
+        // Discussion post not found, redirect to the main page or show an error message
+        header("Location: post.php");
+        exit;
+    }
+} else {
+    // Discussion ID not provided, redirect to the main page or show an error message
+    header("Location: post.php");
+    exit;
 }
-$postResult = mysqli_query($link, $postQuery);
-
-// Check if any posts are found
-$numPosts = mysqli_num_rows($postResult);
 
 ?>
 
@@ -41,39 +51,38 @@ $numPosts = mysqli_num_rows($postResult);
     </div>
     <br>
     <div class="row" style="margin-left: 10px;">
+        <h4><?php echo $title; ?></h4>
+        <br>
+
         <?php
-        if ($numPosts > 0) {
-            echo "<table class='table table-bordered'>";
-            echo "<thead><tr><th>No</th><th>Title</th><th>Action</th></tr></thead>";
-            echo "<tbody>";
-
-            $rowNumber = 1;
-
-            while ($row = mysqli_fetch_assoc($postResult)) {
-                $discussion_id = $row['discussion_id'];
-                $title = $row['title'];
-
-                echo "<tr>";
-                echo "<td>$rowNumber</td>";
-                echo "<td>$title</td>";
-                echo "<td>";
-                echo "<button class='btn btn-primary' onclick='editPost($discussion_id)'><i class='fas fa-edit'></i></button>&nbsp;&nbsp;&nbsp;";
-                echo "<button class='btn btn-danger' onclick='deletePost($discussion_id)'><i class='fas fa-trash'></i></button>";
-                echo "</td>";
-                echo "</tr>";
-
-                $rowNumber++;
-            }
-
-            echo "</tbody>";
-            echo "</table>";
-        } else {
-            echo "<p>No discussion posts found.</p>";
-        }
-
-        // Close the database connection
-        mysqli_close($link);
+        // Display the answers
+        if ($numAnswers > 0) {
+            while ($answerRow = mysqli_fetch_assoc($answerResult)) {
+                $answer_id = $answerRow['answer_id'];
+                $answer_content = $answerRow['answer_content'];
         ?>
+                <div class="answer">
+                    <p><?php echo $answer_content; ?></p>
+                    <div class="answer-actions">
+                        <button class="btn btn-primary" onclick="editAnswer(<?php echo $answer_id; ?>)"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger" onclick="deleteAnswer(<?php echo $answer_id; ?>)"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+        <?php
+            }
+        } else {
+            // No answers found
+            echo "<p>No answers found.</p>";
+        }
+        ?>
+
+        <br>
+        <h5>Answer:</h5>
+        <form method="post" action="submitAnswer.php">
+            <textarea name="answer_content" rows="3" required></textarea><br>
+            <input type="hidden" name="discussion_id" value="<?php echo $discussion_id; ?>">
+            <button type="submit" class="btn btn-primary">Submit Answer</button>
+        </form>
     </div>
     <br><br>
 
@@ -83,32 +92,12 @@ $numPosts = mysqli_num_rows($postResult);
     <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
 
     <script>
-        function deletePost(discussion_id) {
-            var confirmation = confirm("Do you want to delete this post?");
-            if (confirmation) {
-                $.ajax({
-                    type: "POST",
-                    url: "deleteQuestion.php",
-                    data: {
-                        discussion_id: discussion_id
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        if (response.includes('success')) {
-                            location.reload(); // Refresh the page after successful deletion
-                        } else {
-                            alert("Error deleting post: " + response);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        alert("An error occurred while deleting the post: " + error);
-                    }
-                });
-            }
+        function editAnswer(answer_id) {
+            // Implement the edit answer logic
         }
 
-        function editPost(discussion_id) {
-            window.location.href = "viewPost.php?discussion_id=" + discussion_id;
+        function deleteAnswer(answer_id) {
+            // Implement the delete answer logic
         }
     </script>
 </body>

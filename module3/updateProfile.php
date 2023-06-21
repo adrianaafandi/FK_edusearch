@@ -77,7 +77,7 @@
     <div class="content">
         <div style="margin-top: 30px; margin-left: 10px;">
             <form class="row g-3" method="POST" action="" onsubmit="return validateForm();">
-                <h5><b>CREATE PROFILE</b></h5><br><br>
+                <h5><b>UPDATE PROFILE INFORMATION</b></h5><br><br>
                 <div class="mb-3 row">
                     <label for="name" class="col-sm-2 col-form-label">Name</label>
                     <div class="col-sm-10">

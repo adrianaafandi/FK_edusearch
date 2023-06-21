@@ -1,3 +1,5 @@
+warsena naa, [6/21/2023 6:03 AM]
+rating
 <!DOCTYPE html>
 <html>
 
@@ -61,10 +63,6 @@
 
 <body>
     <?php include '../ExpertSideBar/Expert_sidebar.php'; ?>
-    <div class="answer-button">
-        <button type="submit" class="btn btn-primary">VIEW RATING</button>
-    </div>
-
     <div class="card-body">
         <form>
 
@@ -72,8 +70,8 @@
                 <i class="fas fa-user-circle"></i>
                 <span class="name">John Doe</span>
                 <div class="rating">
-                    <input type="radio" id="star5" name="rating" value="5" required checked />
-                    <input type="radio" id="star5-john" name="rating-john" value="5" required checked />
+                    <input type="radio" id="star5" name="rating" value="5" required  />
+                    <input type="radio" id="star5-john" name="rating-john" value="5" required  />
                     <label for="star5-john" title="5 stars"><i class="fas fa-star"></i></label>
 
                     <input type="radio" id="star4-john" name="rating-john" value="4" required />
@@ -103,8 +101,9 @@
                     <input type="radio" id="star5-felix" name="rating-felix" value="5" required />
                     <label for="star5-felix" title="5 stars"><i class="fas fa-star"></i></label>
 
-                    <input type="radio" id="star4-felix" name="rating-felix" value="4" required checked />
+                    <input type="radio" id="star4-felix" name="rating-felix" value="4" required />
                     <label for="star4-felix" title="4 stars"><i class="fas fa-star"></i></label>
+
 
                     <input type="radio" id="star3-felix" name="rating-felix" value="3" required />
                     <label for="star3-felix" title="3 stars"><i class="fas fa-star"></i></label>
@@ -131,7 +130,7 @@
                     <input type="radio" id="star4-karina" name="rating-karina" value="4" required />
                     <label for="star4-karina" title="4 stars"><i class="fas fa-star"></i></label>
 
-                    <input type="radio" id="star3-karina" name="rating-karina" value="3" required checked />
+                    <input type="radio" id="star3-karina" name="rating-karina" value="3" required />
                     <label for="star3-karina" title="3 stars"><i class="fas fa-star"></i></label>
 
                     <input type="radio" id="star2-karina" name="rating-karina" value="2" required />
@@ -141,8 +140,8 @@
                     <label for="star1-karina" title="1 star"><i class="fas fa-star"></i></label>
                 </div>
                 <div class="answer-box">
-                    <p><strong>Question:</strong>How do you handle database connection errors or failures in a web application?</p>
-                    <p><strong>Answer:</strong> Implement a robust logging mechanism to capture and log any database connection errors or failures. This will help in identifying the root cause of the issue and assist in troubleshooting..</p>
+                    <p><strong>Question:</strong>What is IPO?</p>
+                    <p><strong>Answer:</strong>IPO is the Input-Process-Output model</p>
                 </div>
             </div>
 
