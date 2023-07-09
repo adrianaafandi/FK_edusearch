@@ -5,6 +5,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>FK_EDUSEARCH</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: "Lato", sans-serif;
@@ -50,7 +51,7 @@
 
         .sidebar a:hover {
             color: #D5E0FF;
-            background-color: #54AFE6;
+            background-color: #99C2E3;
             color: #262261;
             border-radius: 0 15px 15px 0;
         }
@@ -97,14 +98,14 @@
 </head>
 
 <body>
-
     <div id="mySidebar" class="sidebar">
         <img src="/fkedusearch/img/picture9.png" style="height:100px; width:100%; style=" margin-top:100px; ">
 
-        <a href=" #user" align="left">
+
+<a class=" active" href="#user" align="left">
         <img src="/fkedusearch/img/picture4.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span
             style="vertical-align: middle;">&nbsp&nbsp
-            User</span>
+            Profile</span>
         </a>
 
         <a href="#discussion" align="left">
@@ -125,7 +126,7 @@
                 Report</span>
         </a>
 
-        <a class="active" href="#complaint" align="left">
+        <a href="#complaint" align="left">
             <img src="/fkedusearch/img/picture10.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span
                 style="vertical-align: middle;">&nbsp&nbsp
                 Complaint</span>
@@ -133,28 +134,10 @@
     </div>
 
     <div id="main">
-        <img src="/fkedusearch/img/banner.png" style="height:200px"  width="100%">
-        
-        <button class="openbtn" onclick="toggleNav()">☰</button>
-        <!-- Content -->
-        <div class="content">
-            <div style="margin-top: 30px; margin-left: 10px;">
-                <h2 align="left"><b>COMPLAINT</b></h2>
-                <p><b>We are here to assist you!</b></p>
-                <center>
-                    <img src="/fkedusearch/submitted.png" style="height:250px" width="250px">
-                    <h1><b>Thank You!</b></h1>
-                    <p><b>Your Submission has been received.</b></p>
-                </center>
-            </div>
-            <div class="d-flex justify-content-center" style="margin-bottom: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;
-                
-                <a href="viewComplaint.php">
-                    <button type="button" class="btn btn-primary" style="background-color: #286291; border: none;">NEXT</button>
-                </a>
-            </div>
-        </div>
+        <img src="/fkedusearch/img/banner.png" style="height:200px" width="100%">
+
     </div>
+
     <script>
         function toggleNav() {
             var sidebar = document.getElementById("mySidebar");

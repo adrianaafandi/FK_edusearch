@@ -109,6 +109,11 @@
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
         }
+
+        .short-container {
+            width: 800px;
+            /* Adjust the height as desired */
+        }
     </style>
 </head>
 
@@ -116,14 +121,10 @@
 
     <?php
     // Connect to the database server.
-<<<<<<< HEAD
-    $link = mysqli_connect("localhost", "root", "", "fkedusearch", "8111") or die(mysqli_connect_error());
-=======
     $link = mysqli_connect("localhost", "root", "", "fkedusearch");
     if (!$link) {
         die("Database connection failed: " . mysqli_connect_error());
     }
->>>>>>> cceb6de26cbe25c5e8b495f241f89b35b666dbd0
 
     // Check if the form is submitted.
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -172,7 +173,7 @@
         <a href=" #user" align="left">
         <img src="/fkedusearch/img/picture4.png" style="vertical-align: middle; height: 30px; width: 30px;"> <span
             style="vertical-align: middle;">&nbsp&nbsp
-            User</span>
+            Profile</span>
         </a>
 
         <a href="#discussion" align="left">
@@ -200,8 +201,6 @@
         </a>
     </div>
 
-
-
     <div id="main">
         <img src="/fkedusearch/banner.png" style="height:200px" width="100%">
         <button class="openbtn" onclick="toggleNav()">☰</button>
@@ -212,12 +211,40 @@
         padding-left: 100px;">
             <div class="w3-container custom-container"
                 style="background-color: #F2F2F2; padding-top: 20px; padding-bottom: 20px;">
+                <!-- User and Expert Post -->
+                <div align="center">
+                    <div class="w3-container custom-container short-container"
+                        style="background-color: #F2F2F2; padding-top: 20px; padding-bottom: 20px; margin-bottom: 0px;">
+                        <table>
+                            <thead>
+                                <tr align="left">
+                                    <th>Your's Post</th>
+                                </tr>
+                                <tr align="left">
+                                    <td>I got some error while setting up Laravel in my laptop.</td>
+                                </tr>
+                                
+                                <tr align="left">
+                                    <th><hr>Expert's Feedback</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Your Laravel installer is very out of date. The only way to get the
+                                        latest
+                                        version is to remove and install again.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <hr>
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <h2 align="left"><b>COMPLAINT</b></h2>
                     <p style="margin-top: 5px;">We are here to assist you!</p>
                     <div align="right">
-                        <button type="button" class="btn btn-primary"
-                            style="background-color: #62A0D4; border: none;" onclick="redirectToPage()">VIEW COMPLAINT</button>
+                        <button type="button" class="btn btn-primary" style="background-color: #62A0D4; border: none;"
+                            onclick="redirectToPage()">VIEW COMPLAINT</button>
                     </div>
 
                     <div class="mb-3 row" style="margin-top: 10px;">
@@ -266,7 +293,9 @@
                         <button type="submit" class="btn btn-primary"
                             style="background-color: #62A0D4; border: none; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">SUBMIT</button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <button type="button" class="btn btn-secondary" style="background-color: #BFBFBF; border: none; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);" onclick="goBack()">CANCEL</button>
+                        <button type="button" class="btn btn-secondary"
+                            style="background-color: #BFBFBF; border: none; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);"
+                            onclick="goBack()">CANCEL</button>
                     </div>
                 </form>
             </div>
@@ -315,7 +344,7 @@
             }
         </script>
     </div>
-    
+
 </body>
 
 </html>

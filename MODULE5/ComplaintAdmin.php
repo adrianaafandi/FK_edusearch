@@ -346,399 +346,394 @@
         </a>
     </div>
 
-    <body>
-        <div id="main">
-            <img src="/fkedusearch/banner.png" style="height:200px" width="100%">
-            <button class="openbtn" onclick="toggleNav()">☰</button>
-            <div class="content">
-                <div style="margin-top: 30px; margin-left: 10px;">
-                    <h2 align="center"><b>COMPLAINT</b></h2>
-                    <p align="center"><b>Admin Page</b></p>
+    <div id="main">
+        <img src="/fkedusearch/banner.png" style="height:200px" width="100%">
+        <button class="openbtn" onclick="toggleNav()">☰</button>
+        <div class="content">
+            <div style="margin-top: 30px; margin-left: 10px;">
+                <h2 align="center"><b>MANAGE COMPLAINT</b></h2>
+                <p align="center"><b>Admin Page</b></p>
 
-                    <div class="content" style="
-                    padding-top: 10px;
-                    padding-right: 100px;
-                    padding-bottom: 50px;
-                    padding-left: 100px;">
-                        <div class="w3-container custom-container"
-                            style="background-color: #F2F2F2; padding-top: 20px; padding-bottom: 20px;">
-                            <!-- Filter -->
-                            <div style="margin-bottom: 10px; margin-top: 10px">
-                                <label for="filter">Filter by Complaint Type:</label>
+                <div class="content" style="
+                        padding-top: 10px;
+                        padding-right: 100px;
+                        padding-bottom: 50px;
+                        padding-left: 100px;">
+                    <div class="w3-container custom-container"
+                        style="background-color: #F2F2F2; padding-top: 20px; padding-bottom: 20px;">
 
-                                <select name="complaint_types" onchange="filterTable()" id="filter-complaint-types"
-                                    class="form-control">
-                                    <option value="all">All</option>
-                                    <option value="Unsatisfied Expert's Feedback">Unsatisfied Feedback</option>
-                                    <option value="Wrongly Assigned Research Area">Wrong Research Area</option>
-                                    <option value="Others">Others</option>
-                                </select>
-                            </div>
+                        <!-- Filter -->
+                        <div style="margin-bottom: 10px; margin-top: 10px">
+                            <label for="filter">Filter by Complaint Type:</label>
+                            <select name="complaint_types" onchange="filterTable()" id="filter-complaint-types"
+                                class="form-control">
+                                <option value="all">All</option>
+                                <option value="Unsatisfied Expert's Feedback">Unsatisfied Feedback</option>
+                                <option value="Wrongly Assigned Research Area">Wrong Research Area</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
 
-                            <!-- Sort -->
-                            <div style="margin-bottom: 10px;">
-                                <label for="sort">Sort by:</label>
-                                <select name="sort" onchange="sortTable()" id="sort-complaint-date"
-                                    class="form-control">
-                                    <option value="default">Default</option>
-                                    <option value="day">Particular Day</option>
-                                    <option value="week">Week</option>
-                                    <option value="month">Month</option>
-                                </select>
-                            </div>
+                        <!-- Sort -->
+                        <div style="margin-bottom: 10px;">
+                            <label for="sort">Sort by:</label>
+                            <select name="sort" onchange="sortTable()" id="sort-complaint-date" class="form-control">
+                                <option value="default">Default</option>
+                                <option value="day">Particular Day</option>
+                                <option value="week">Week</option>
+                                <option value="month">Month</option>
+                            </select>
+                        </div>
 
-                            <?php
-                            // Connect to the database server.
-                            $link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
+                        <?php
+                        // Connect to the database server.
+                        $link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
 
-                            // Select the database.
-                            mysqli_select_db($link, "fkedusearch") or die(mysqli_error($link));
+                        // Select the database.
+                        mysqli_select_db($link, "fkedusearch") or die(mysqli_error($link));
 
-                            // Check if the form is submitted
-                            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                                // Get the complaint ID and status from the form
-                                $complaint_id = $_POST["complaint_id"];
-                                $complaint_status = $_POST["complaint_status"];
+                        // Check if the form is submitted
+                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                            // Get the complaint ID and status from the form
+                            $complaint_id = $_POST["complaint_id"];
+                            $complaint_status = $_POST["complaint_status"];
 
-                                // Update the status in the database
-                                $update_query = "UPDATE complaint SET complaint_status='$complaint_status' WHERE complaint_id='$complaint_id'";
-                                $update_result = mysqli_query($link, $update_query);
+                            // Update the status in the database
+                            $update_query = "UPDATE complaint SET complaint_status='$complaint_status' WHERE complaint_id='$complaint_id'";
+                            $update_result = mysqli_query($link, $update_query);
 
-                                if ($update_result) {
-                                    echo '<script>alert("Status updated successfully.")</script>';
-                                } else {
-                                    echo "Error updating status: " . mysqli_error($link);
-                                }
+                            if ($update_result) {
+                                echo '<script>alert("Status updated successfully.")</script>';
+                            } else {
+                                echo "Error updating status: " . mysqli_error($link);
                             }
+                        }
 
-                            // SQL query
-                            $query = "SELECT *, DATE_FORMAT(complaint_datetime, '%Y-%m-%d') AS complaint_date, DATE_FORMAT(complaint_datetime, '%H:%i:%S') AS complaint_time FROM complaint";
+                        // SQL query
+                        $query = "SELECT *, DATE_FORMAT(complaint_datetime, '%Y-%m-%d') AS complaint_date, DATE_FORMAT(complaint_datetime, '%H:%i:%S') AS complaint_time FROM complaint";
 
-                            // Execute the query
-                            $result = mysqli_query($link, $query);
+                        // Execute the query
+                        $result = mysqli_query($link, $query);
 
-                            if ($result) {
-                                if (mysqli_num_rows($result) > 0) {
+                        if ($result) {
+                            if (mysqli_num_rows($result) > 0) {
+                                echo '
+                                        <table border="1" class="table table-bordered" id="complaint-table">  </br>
+                                            <thead>
+                                                <tr align="center">
+                                                    <th>No.</th>
+                                                    <th>Complaint Name</th>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                    <th>Complaint Type</th>
+                                                    <th>Complaint Detail</th>
+                                                    <th>Actions</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>';
+
+                                $count = 1;
+
+                                // Output data of each row
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $complaint_id = $row["complaint_id"];
+                                    $complaint_name = $row["complaint_name"];
+                                    $complaint_date = $row["complaint_date"];
+                                    $complaint_time = $row["complaint_time"];
+                                    $complaint_types = $row["complaint_types"];
+                                    $complaint_desc = $row["complaint_desc"];
+                                    $complaint_status = $row["complaint_status"];
+
                                     echo '
-                                    <table border="1" class="table table-bordered" id="complaint-table">  </br>
-                                        <thead>
-                                            <tr align="center">
-                                                <th>No.</th>
-                                                <th>Complaint Name</th>
-                                                <th>Date</th>
-                                                <th>Time</th>
-                                                <th>Complaint Type</th>
-                                                <th>Complaint Detail</th>
-                                                <th>Actions</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>';
-
-                                    $count = 1;
-
-                                    // Output data of each row
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        $complaint_id = $row["complaint_id"];
-                                        $complaint_name = $row["complaint_name"];
-                                        $complaint_date = $row["complaint_date"];
-                                        $complaint_time = $row["complaint_time"];
-                                        $complaint_types = $row["complaint_types"];
-                                        $complaint_desc = $row["complaint_desc"];
-                                        $complaint_status = $row["complaint_status"];
-
-                                        echo '
                                         <tr>
                                             <td>' . $count . '</td>
                                             <td>' . $complaint_name . '</td>
-                                            <td class="complaint-date" id="complaint-date-' . $complaint_id . '">' . $complaint_date . '</td>
+                                            <td style="width: 100px;" align="center" class="complaint-date" id="complaint-date-' . $complaint_id . '">' . $complaint_date . '</td>
                                             <td>' . $complaint_time . '</td>
                                             <td class="complaint-types" id="complaint-type-' . $complaint_id . '">' . $complaint_types . '</td>
                                             <td>' . $complaint_desc . '</td>
-                                            <td> 
-                                                <a href="updateComplaint.php?id=' . $complaint_id . '"><img src="edit.png" alt="Edit Icon" style="height: 20px; width: 20px;"></a>
+                                            <td style="width: 140px;" align="center"> <!-- Adjust the width value as needed -->
+                                                <a href="viewComplaintAdmin.php?id=' . $complaint_id . '"><img src="/fkedusearch/img/view.png" alt="Edit Icon" style="height: 30px; width: 30px;"></a>
                                                 &nbsp;&nbsp;
-                                                <a href="deleteComplaint.php?id=' . $complaint_id . '"><img src="delete.png" alt="Edit Icon" style="height: 20px; width: 20px;"></a>                        
+                                                <a href="updateComplaint.php?id=' . $complaint_id . '"><img src="/fkedusearch/img/edit.png" alt="Edit Icon" style="height: 30px; width: 30px;"></a>
+                                                &nbsp;&nbsp;
+                                                <a href="deleteComplaint.php?id=' . $complaint_id . '"><img src="/fkedusearch/img/delete.png" alt="Edit Icon" style="height: 30px; width: 30px;"></a>                        
                                             </td>
-                                            <td class="complaint-status">
+                                            <td class="complaint-status" style="width: 150px;"> <!-- Adjust the width value as needed -->
                                                 <form method="POST" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">
+                                                    
+                                                    <div align="center">
                                                     <input type="hidden" name="complaint_id" value="' . $complaint_id . '">
                                                     <select name="complaint_status">
                                                         <option value="Investigation" ' . ($complaint_status == "Investigation" ? "selected" : "") . '>Investigation</option>
                                                         <option value="On Hold" ' . ($complaint_status == "On Hold" ? "selected" : "") . '>On Hold</option>
                                                         <option value="Resolved" ' . ($complaint_status == "Resolved" ? "selected" : "") . '>Resolved</option>
                                                     </select>
-                                                    <input type="submit" class="btn btn-primary" style="background-color: #69C9C4; border: none;" value="Update">
+                                                        <input type="submit" class="btn btn-primary" style="background-color: #69C9C4; border: none;" value="Update">
+                                                    </div>
                                                 </form>
                                             </td>
-                                        </tr>';
+                                        </tr>
+                                        ';
 
-                                        $count++;
-                                    }
-
-                                    echo '
-                                    </tbody>
-                                    </table>';
-
-                                    // Initialize DataTable
-                                    echo '<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-                                    <script>
-                                        $(document).ready(function() {
-                                            $("#complaint-table").DataTable();
-                                        });
-                                    </script>';
-                                } else {
-                                    echo "0 results";
+                                    $count++;
                                 }
+                                echo '
+                                        </tbody>
+                                        </table>';
+
+                                // Initialize DataTable //Search Function
+                                echo '<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+                                        <script>
+                                            $(document).ready(function() {
+                                                $("#complaint-table").DataTable();
+                                            });
+                                        </script>';
                             } else {
-                                echo "Error executing the query: " . mysqli_error($link);
+                                echo "0 results";
                             }
+                        } else {
+                            echo "Error executing the query: " . mysqli_error($link);
+                        }
 
-                            // Close the database connection
-                            mysqli_close($link);
-                            ?>
-                            <div align="right">
+                        // Close the database connection
+                        mysqli_close($link);
+                        ?>
+                        <div align="right">
 
-                                <button type="submit" class="btn btn-primary"
-                                    style="background-color: #69C9C4; border: none; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);"
-                                    onclick="document.getElementById('id01').style.display='block'"
-                                    style="width:auto;">REPORT BY COMPLAINT TYPES
-                                </button>
+                            <button type="submit" class="btn btn-primary"
+                                style="background-color: #69C9C4; border: none; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);"
+                                onclick="document.getElementById('id01').style.display='block'"
+                                style="width:auto;">REPORT OF TOTAL COMPLAINT
+                            </button>
 
-                                <div id="id01" class="modal">
+                            <div id="id01" class="modal">
 
-                                    <form class="modal-content animate" action="/action_page.php" method="post">
-                                        <div class="imgcontainer">
-                                            <span onclick="document.getElementById('id01').style.display='none'"
-                                                class="close" title="Close Modal">&times;</span>
-                                        </div>
+                                <form class="modal-content animate" action="/action_page.php" method="post">
+                                    <div class="imgcontainer">
+                                        <span onclick="document.getElementById('id01').style.display='none'"
+                                            class="close" title="Close Modal">&times;</span>
+                                    </div>
 
-                                        <div class="container">
-                                            <canvas id="complaintChart" style="width:50%;max-width:1000px"></canvas>
+                                    <div class="container">
+                                        <canvas id="complaintChart" style="width:50%;max-width:1000px"></canvas>
 
-                                            <?php
-                                            // Connect to the database server.
-                                            $link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
+                                        <?php
+                                        // Connect to the database server.
+                                        $link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
 
-                                            // Select the database.
-                                            mysqli_select_db($link, "fkedusearch") or die(mysqli_error($link));
+                                        // Select the database.
+                                        mysqli_select_db($link, "fkedusearch") or die(mysqli_error($link));
 
-                                            // SQL query
-                                            $query = "SELECT * FROM complaint";
+                                        // SQL query
+                                        $query = "SELECT * FROM complaint";
 
-                                            // Execute the query
-                                            $result = mysqli_query($link, $query);
+                                        // Execute the query
+                                        $result = mysqli_query($link, $query);
 
-                                            if ($result) {
-                                                // Initialize an empty array to store the complaint type counts
-                                                $complaintTypeCounts = array();
+                                        if ($result) {
+                                            // Initialize an empty array to store the complaint type counts
+                                            $complaintTypeCounts = array();
 
-                                                // Iterate over the result set and count the occurrences of each complaint type
-                                                while ($row = mysqli_fetch_assoc($result)) {
-                                                    $complaintType = $row["complaint_types"];
+                                            // Iterate over the result set and count the occurrences of each complaint type
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                $complaintType = $row["complaint_types"];
 
-                                                    if (isset($complaintTypeCounts[$complaintType])) {
-                                                        $complaintTypeCounts[$complaintType]++;
-                                                    } else {
-                                                        $complaintTypeCounts[$complaintType] = 1;
-                                                    }
+                                                if (isset($complaintTypeCounts[$complaintType])) {
+                                                    $complaintTypeCounts[$complaintType]++;
+                                                } else {
+                                                    $complaintTypeCounts[$complaintType] = 1;
                                                 }
-
-                                                // Extract the complaint types and counts as separate arrays
-                                                $complaintTypes = array_keys($complaintTypeCounts);
-                                                $complaintCounts = array_values($complaintTypeCounts);
                                             }
-                                            ?>
 
-                                            <script>
-                                                // Retrieve the complaint types and counts from PHP
-                                                var complaintTypes = <?php echo isset($complaintTypes) ? json_encode($complaintTypes) : '[]'; ?>;
-                                                var complaintCounts = <?php echo isset($complaintCounts) ? json_encode($complaintCounts) : '[]'; ?>;
+                                            // Extract the complaint types and counts as separate arrays
+                                            $complaintTypes = array_keys($complaintTypeCounts);
+                                            $complaintCounts = array_values($complaintTypeCounts);
+                                        }
+                                        ?>
 
-                                                // Define an array of colors for differentiating complaint types
-                                                var colors = ['rgba(75, 192, 192, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)', 'rgba(153, 102, 255, 0.6)'];
+                                        <!-- Chart -->
+                                        <script>
+                                            // Retrieve the complaint types and counts from PHP
+                                            var complaintTypes = <?php echo isset($complaintTypes) ? json_encode($complaintTypes) : '[]'; ?>;
+                                            var complaintCounts = <?php echo isset($complaintCounts) ? json_encode($complaintCounts) : '[]'; ?>;
 
-                                                // Create an array to store dataset objects
-                                                var datasets = [];
+                                            // Define an array of colors for differentiating complaint types
+                                            var colors = ['rgba(75, 192, 192, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)', 'rgba(153, 102, 255, 0.6)'];
 
-                                                // Iterate over the complaint types and counts to create dataset objects
-                                                for (var i = 0; i < complaintTypes.length; i++) {
-                                                    var dataset = {
-                                                        label: complaintTypes[i],
-                                                        data: [complaintCounts[i]],
-                                                        backgroundColor: colors[i % colors.length], // Assign a color from the array based on index
-                                                        borderColor: 'rgba(255, 255, 255, 1)',
-                                                        borderWidth: 1,
-                                                    };
+                                            // Create an array to store dataset objects
+                                            var datasets = [];
 
-                                                    datasets.push(dataset);
-                                                }
+                                            // Iterate over the complaint types and counts to create dataset objects
+                                            for (var i = 0; i < complaintTypes.length; i++) {
+                                                var dataset = {
+                                                    label: complaintTypes[i],
+                                                    data: [complaintCounts[i]],
+                                                    backgroundColor: colors[i % colors.length], // Assign a color from the array based on index
+                                                    borderColor: 'rgba(255, 255, 255, 1)',
+                                                    borderWidth: 1,
+                                                };
 
-                                                // Get the canvas element
-                                                var ctx = document.getElementById('complaintChart').getContext('2d');
+                                                datasets.push(dataset);
+                                            }
 
-                                                // Create the chart using Chart.js
-                                                new Chart(ctx, {
-                                                    type: 'bar',
-                                                    data: {
-                                                        labels: ['Complaint Types'],
-                                                        datasets: datasets
-                                                    },
-                                                    options: {
-                                                        responsive: true,
-                                                        scales: {
-                                                            y: {
-                                                                beginAtZero: true,
-                                                                stepSize: 1
-                                                            }
+                                            // Get the canvas element
+                                            var ctx = document.getElementById('complaintChart').getContext('2d');
+
+                                            // Create the chart using Chart.js
+                                            new Chart(ctx, {
+                                                type: 'bar',
+                                                data: {
+                                                    labels: ['Complaint Types'],
+                                                    datasets: datasets
+                                                },
+                                                options: {
+                                                    responsive: true,
+                                                    scales: {
+                                                        y: {
+                                                            beginAtZero: true,
+                                                            stepSize: 1
                                                         }
                                                     }
-                                                });
-                                            </script>
-                                        </div>
+                                                }
+                                            });
+                                        </script>
+                                    </div>
 
 
-                                    </form>
-                                </div>
-
-                                <button type="submit" class="btn btn-primary"
-                                    style="background-color:  #69C9C4; border: none; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);"
-                                    onclick="window.location.href = 'testing.php';">REPORT BY TIME
-                                    PERIOD</button>
-
-
-
+                                </form>
                             </div>
 
-
+                            <button type="submit" class="btn btn-primary"
+                                style="background-color:  #69C9C4; border: none; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);"
+                                onclick="window.location.href = 'testing.php';">REPORT BY TIME
+                                PERIOD</button>
                         </div>
                     </div>
                 </div>
-
             </div>
-            <script>
-                function toggleNav() {
-                    var sidebar = document.getElementById("mySidebar");
-                    var main = document.getElementById("main");
 
-                    if (sidebar.style.width === "250px") {
-                        sidebar.style.width = "0";
-                        main.style.marginLeft = "0";
+        </div>
+        <script>
+            //sdiebar function
+            function toggleNav() {
+                var sidebar = document.getElementById("mySidebar");
+                var main = document.getElementById("main");
+
+                if (sidebar.style.width === "250px") {
+                    sidebar.style.width = "0";
+                    main.style.marginLeft = "0";
+                } else {
+                    sidebar.style.width = "250px";
+                    main.style.marginLeft = "250px";
+                }
+            }
+        </script>
+
+        <script>
+            //filter function
+            function filterTable() {
+                var filter = document.getElementById("filter-complaint-types").value; // Get the selected complaint type filter
+                var table = document.getElementById("complaint-table"); // Get the table element
+
+                for (var i = 1; i < table.rows.length; i++) {
+                    var complaintTypeCell = table.rows[i].querySelector(".complaint-types"); // Get the cell containing the complaint type
+                    var complaintTypeId = complaintTypeCell.getAttribute("id").replace("complaint-type-", ""); // Extract the complaint ID
+
+                    if (filter === "all" || complaintTypeCell.textContent === filter) {
+                        table.rows[i].style.display = ""; // Show the row
                     } else {
-                        sidebar.style.width = "250px";
-                        main.style.marginLeft = "250px";
+                        table.rows[i].style.display = "none"; // Hide the row
                     }
                 }
-            </script>
+            }
 
-            <script>
-                function filterTable() {
-                    var filter = document.getElementById("filter-complaint-types").value; // Get the selected complaint type filter
-                    var table = document.getElementById("complaint-table"); // Get the table element
+            //Sort by day, week, month
+            function sortTable() {
+                var filter = document.getElementById("sort-complaint-date").value; // Get the selected date
+                var table = document.getElementById("complaint-table"); // Get the table element
 
-                    for (var i = 1; i < table.rows.length; i++) {
-                        var complaintTypeCell = table.rows[i].querySelector(".complaint-types"); // Get the cell containing the complaint type
-                        var complaintTypeId = complaintTypeCell.getAttribute("id").replace("complaint-type-", ""); // Extract the complaint ID
+                const date = new Date();
+                let currDay = String(date.getDate()).padStart(2, '0');
+                let currMonth = String(date.getMonth() + 1).padStart(2, "0");
+                let currYear = date.getFullYear();
 
-                        if (filter === "all" || complaintTypeCell.textContent === filter) {
-                            table.rows[i].style.display = ""; // Show the row
+                for (var i = 1; i < table.rows.length; i++) {
+                    var complaintDateCell = table.rows[i].querySelector(".complaint-date"); // Get the cell containing the date
+                    var complaintTypeId = complaintDateCell.getAttribute("id").replace("complaint-date-", ""); // Extract the complaint ID
+
+                    if (filter === "default") {
+                        table.rows[i].style.display = "";
+                    } else if (filter === "day") {
+                        let currDate = currYear + '-' + currMonth + '-' + currDay;
+                        if (complaintDateCell.textContent === currDate) {
+                            table.rows[i].style.display = "";
                         } else {
-                            table.rows[i].style.display = "none"; // Hide the row
+                            table.rows[i].style.display = "none";
                         }
-                    }
-                }
-
-                function sortTable() {
-                    var filter = document.getElementById("sort-complaint-date").value; // Get the selected date
-                    var table = document.getElementById("complaint-table"); // Get the table element
-
-
-                    for (var i = 1; i < table.rows.length; i++) {
-                        var complaintTypeCell = table.rows[i].querySelector(".complaint-date"); // Get the cell containing the date
-                        var complaintTypeId = complaintTypeCell.getAttribute("id").replace("complaint-date-", ""); // Extract the complaint ID
-
-
-                        // complaintTypeCell.textContent === filter
-
-
-                        if (filter === "default") {
-                            table.rows[i].style.display = ""; // Show the row
-                        } else if (filter === "day") {
-                            const date = new Date();
-                            let currDay = String(date.getDate()).padStart(2, '0');
-                            let currMonth = String(date.getMonth() + 1).padStart(2, "0");
-                            let currYear = date.getFullYear();
-                            let currDate = currYear + '-' + currMonth + '-' + currDay;
-                            if (complaintTypeCell.textContent === '2023-06-20') {
-                                table.rows[i].style.display = ""; // Show the row
+                    } else if (filter === "week") {
+                        let countDay = String(date.getDate()).padStart(2, '0');
+                        let dateList = [];
+                        let count = 0;
+                        while (count != 7) {
+                            dateList.push(currYear + '-' + currMonth + '-' + countDay);
+                            countDay--;
+                            count++;
+                        }
+                        for (var a = 0; a < dateList.length; a++) {
+                            if (complaintDateCell.textContent === dateList[a]) {
+                                table.rows[i].style.display = "";
+                                break;
                             } else {
-                                table.rows[i].style.display = "none"; // Hide the row
+                                table.rows[i].style.display = "none";
                             }
-                        } else if (filter === "week") {
-                            const date = new Date();
-                            let currDay = String(date.getDate()).padStart(2, '0');
-                            let currMonth = String(date.getMonth() + 1).padStart(2, "0");
-                            let currYear = date.getFullYear();
-
-
-                            let allDays = [];
-                            let count = 0;
-
-
-                            while (count != 7) {
-                                allDays.push(currYear + '-' + currMonth + '-' + currDay);
-                                currDay--;
-                                count++;
-                            }
-
-
-                            for (var a = 0; a < allDays.length; a++) {
-                                if (complaintTypeCell.textContent === allDays[a]) {
-                                    table.rows[i].style.display = ""; // Show the row
-                                } else {
-                                    table.rows[i].style.display = "none"; // Hide the row
-                                }
-                            }
-                        } else if (filter === "month") {
-
-
-                        } else {
-                            table.rows[i].style.display = "none"; // Hide the row
                         }
+                    } else if (filter === "month") {
+                        let countDay = String(date.getDate()).padStart(2, '0');
+                        let dateList = [];
+                        let count = 0;
+                        while (count != currDay) {
+                            dateList.push(currYear + '-' + currMonth + '-' + countDay);
+                            countDay--;
+                            count++;
+                        }
+                        for (var b = 0; b < dateList.length; b++) {
+                            if (complaintDateCell.textContent === dateList[b]) {
+                                table.rows[i].style.display = "";
+                                break;
+                            } else {
+                                table.rows[i].style.display = "none";
+                            }
+                        }
+                    } else {
+                        table.rows[i].style.display = "none";
                     }
                 }
+            }
 
+            // Get the modal (graph based on complaint type)
+            var modal = document.getElementById('id01');
 
-
-
-
-
-
-                // Get the modal
-                var modal = document.getElementById('id01');
-
-                // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function (event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
                 }
+            }
 
-                // Get the modal
-                var modal = document.getElementById('id02');
+            // Get the modal (graph for time period)
+            var modal = document.getElementById('id02');
 
-                // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function (event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
                 }
-            </script>
+            }
+        </script>
 
-        </div>
-
-
-        </div>
-    </body>
+    </div>
+</body>
 
 </html>

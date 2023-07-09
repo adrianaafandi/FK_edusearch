@@ -2,11 +2,13 @@
 <html>
 
 <head>
-    <title>FK_EDUSEARCH</title>
+    <title>Complaint Report</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
+    <canvas id="complaintChart" style="width:50%;max-width:1000px"></canvas>
+
     <?php
     // Connect to the database server.
     $link = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
@@ -14,18 +16,8 @@
     // Select the database.
     mysqli_select_db($link, "fkedusearch") or die(mysqli_error($link));
 
-    // Get the selected time period filter
-    $filter = $_POST["filter"] ?? "";
-
-    // Prepare the SQL query based on the selected filter
-    $query = "SELECT complaint_datetime, complaint_types FROM complaint";
-    if ($filter === "day") {
-        $query .= " WHERE complaint_datetime >= DATE_SUB(CURDATE(), INTERVAL 1 DAY)";
-    } elseif ($filter === "week") {
-        $query .= " WHERE complaint_datetime >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK)";
-    } elseif ($filter === "month") {
-        $query .= " WHERE complaint_datetime >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)";
-    }
+    // SQL query
+    $query = "SELECT * FROM complaint";
 
     // Execute the query
     $result = mysqli_query($link, $query);
@@ -51,20 +43,6 @@
     }
     ?>
 
-    <div>
-        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-            <label for="filter">Filter by Time Period:</label>
-            <select name="filter" onchange="this.form.submit()">
-                <option value="">All</option>
-                <option value="day" <?php if ($filter === "day") echo "selected"; ?>>Last 24 Hours</option>
-                <option value="week" <?php if ($filter === "week") echo "selected"; ?>>Last 7 Days</option>
-                <option value="month" <?php if ($filter === "month") echo "selected"; ?>>Last 30 Days</option>
-            </select>
-        </form>
-    </div>
-
-    <canvas id="complaintChart" style="max-height:500px, width:50%;max-width:700px"></canvas>
-
     <script>
         // Retrieve the complaint types and counts from PHP
         var complaintTypes = <?php echo isset($complaintTypes) ? json_encode($complaintTypes) : '[]'; ?>;
@@ -73,32 +51,38 @@
         // Define an array of colors for differentiating complaint types
         var colors = ['rgba(75, 192, 192, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)', 'rgba(153, 102, 255, 0.6)'];
 
-        // Create the chart
+        // Create an array to store dataset objects
+        var datasets = [];
+
+        // Iterate over the complaint types and counts to create dataset objects
+        for (var i = 0; i < complaintTypes.length; i++) {
+            var dataset = {
+                label: complaintTypes[i],
+                data: [complaintCounts[i]],
+                backgroundColor: colors[i % colors.length], // Assign a color from the array based on index
+                borderColor: 'rgba(255, 255, 255, 1)',
+                borderWidth: 1,
+            };
+
+            datasets.push(dataset);
+        }
+
+        // Get the canvas element
         var ctx = document.getElementById('complaintChart').getContext('2d');
-        var chart = new Chart(ctx, {
+
+        // Create the chart using Chart.js
+        new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: complaintTypes,
-                datasets: [{
-                    label: 'Complaints',
-                    data: complaintCounts,
-                    backgroundColor: colors
-                }]
+                labels: ['Complaint Types'],
+                datasets: datasets
             },
             options: {
+                responsive: true,
                 scales: {
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    },
                     y: {
-                        beginAtZero: true
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
+                        beginAtZero: true,
+                        stepSize: 1
                     }
                 }
             }

@@ -12,6 +12,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <title>FK_EDUSEARCH</title>
     <style>
         body {
@@ -108,6 +110,11 @@
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
         }
+
+        .short-container {
+            width: 800px;
+            /* Adjust the height as desired */
+        }
     </style>
 </head>
 
@@ -157,9 +164,36 @@
         padding-left: 200px;">
             <div class="w3-container custom-container"
                 style="background-color: #F2F2F2; padding-top: 20px; padding-bottom: 20px;">
+                <!-- User and Expert Post -->
+                <div align="center">
+                    <div class="w3-container custom-container short-container"
+                        style="background-color: #F2F2F2; padding-top: 20px; padding-bottom: 20px; margin-bottom: 20px;">
+                        <table>
+                            <thead>
+                                <tr align="left">
+                                    <th>Your's Post</th>
+                                </tr>
+                                <tr align="left">
+                                    <td>I got some error while setting up Laravel in my laptop.</td>
+                                </tr>
+                                <tr align="left">
+                                    <th><hr>Expert's Feedback</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Your Laravel installer is very out of date. The only way to get the
+                                        latest
+                                        version is to remove and install again.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <hr>
                 <h2 align="left"><b>COMPLAINT</b></h2>
                 <p style="margin-top: 5px;">We are here to assist you!</p>
-                <hr>
+                
                 <div align="center">
                     <h3><span class="badge badge-danger" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">Status:
                             Investigation</span></h3>
@@ -178,7 +212,8 @@
                 echo "<p>Complaint Details: $complaint_desc</p>";
                 ?>
                 <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary" style="background-color: #286291; border: none;" onclick="redirectToPage()">HOME</button>
+                    <button type="submit" class="btn btn-primary" style="background-color: #286291; border: none;"
+                        onclick="redirectToPage()">BACK</button>
                 </div>
             </div>
         </div>
