@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Perform any necessary validation on the data
 
     // Insert the rating into the database
-    $insertRatingQuery = "INSERT INTO rating (,rating_id, answer_id, discussion_id, total_rating) VALUES ('$answer_id', (SELECT discussion_id FROM answer WHERE answer_id = '$answer_id'), '$rating_id')";
+    $insertRatingQuery = "INSERT INTO rating (rating_id, answer_id, discussion_id, total_rating) VALUES ('$answer_id', (SELECT discussion_id FROM answer WHERE answer_id = '$answer_id'), '$rating_id')";
     $insertRatingResult = mysqli_query($link, $insertRatingQuery);
 
     // Check if the rating insertion was successful
